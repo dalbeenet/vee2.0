@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="vee">
+      <UniqueIdentifier>{6da29dc1-ec12-4bc0-9982-786b60dbad05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vee\concurrency">
+      <UniqueIdentifier>{81b4e9d4-cf44-4925-90c7-c4b087f7dd88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="concurrency">
+      <UniqueIdentifier>{5ed98d9b-e3f3-40eb-b1d2-ca9ec5d279ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vee\code">
+      <UniqueIdentifier>{74c3a501-d889-4552-b6a0-41dfd301a1a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="code">
+      <UniqueIdentifier>{affd53c4-39e5-4c96-a70e-463e6d2de742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vee\io">
+      <UniqueIdentifier>{74969a1f-af47-413b-9aa8-215912f80d23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vee\interprocess">
+      <UniqueIdentifier>{a115ca0e-eb41-424b-8629-2c0ddee8d254}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vee\network">
+      <UniqueIdentifier>{a84f563a-566d-4e6c-8bb0-effd0c5d0388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="io">
+      <UniqueIdentifier>{c7686873-6eb6-4739-b185-87c2f179e9ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network">
+      <UniqueIdentifier>{f58ee835-c245-44bd-b01d-f89a82e7e9ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vee\exception">
+      <UniqueIdentifier>{5e60cadb-b8d9-452f-907c-315e7d7e6e96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="interprocess">
+      <UniqueIdentifier>{c5234b93-f6b3-454d-9fb3-b37b2ca04913}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="vee\concurrency\mutex.h">
+      <Filter>vee\concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\base.h">
+      <Filter>vee</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\delegate.h">
+      <Filter>vee</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\tuple_unpacker.h">
+      <Filter>vee</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\type_parser.h">
+      <Filter>vee</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\concurrency\syncronized_ringqueue.h">
+      <Filter>vee\concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\signal.h">
+      <Filter>vee</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\concurrency\actor.h">
+      <Filter>vee\concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\concurrency\scheduler.h">
+      <Filter>vee\concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\strutils.h">
+      <Filter>vee</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\code\code.h">
+      <Filter>vee\code</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\error.h">
+      <Filter>vee</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\io\stream.h">
+      <Filter>vee\io</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\io\io_base.h">
+      <Filter>vee\io</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\network\net.h">
+      <Filter>vee\network</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\interprocess\pipe.h">
+      <Filter>vee\interprocess</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\interprocess\shared_memory.h">
+      <Filter>vee\interprocess</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\network\tcp_stream.h">
+      <Filter>vee\network</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\io\boost_io_service.h">
+      <Filter>vee\io</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\exception\exception_base.h">
+      <Filter>vee\exception</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\network\exception.h">
+      <Filter>vee\network</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\io\exception.h">
+      <Filter>vee\io</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\network\websocket_stream.h">
+      <Filter>vee\network</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\test\test_object.h">
+      <Filter>vee</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="concurrency\mutex.cpp">
+      <Filter>concurrency</Filter>
+    </ClCompile>
+    <ClCompile Include="code\sha1.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="code\base64.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="network\net.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="network\tcp_stream.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="io\boost_io_service.cpp">
+      <Filter>io</Filter>
+    </ClCompile>
+    <ClCompile Include="interprocess\shared_memory.cpp">
+      <Filter>interprocess</Filter>
+    </ClCompile>
+    <ClCompile Include="network\tcp_server.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="io\async_stream.cpp">
+      <Filter>io</Filter>
+    </ClCompile>
+    <ClCompile Include="network\rfc6455.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
