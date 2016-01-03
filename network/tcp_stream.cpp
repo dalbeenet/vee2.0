@@ -51,7 +51,7 @@ net_stream::shared_ptr tcp_server::accept()
     }
     catch (::std::exception&)
     {
-        throw socket_accept_exception();
+        throw exceptions::stream_accept_failed();
     }
     net_stream::shared_ptr ret = ::std::make_shared<tcp_stream>(std::move(client));
     return ret;
@@ -128,7 +128,7 @@ void tcp_stream::connect(const char* ip_addr, port_t port) throw(...)
     _socket.connect(ep, error);
     if (error)
     {
-        throw socket_connection_exception();
+        throw exceptions::stream_open_failed();
     }
 }
 
@@ -157,9 +157,13 @@ size_t tcp_stream::write_some(const unsigned char* data, const size_t len) throw
 {
     ::boost::system::error_code error;
     size_t write_len = (size_t)_socket.write_some(::boost::asio::buffer(data, (size_t)len), error);
-    if (error)
+    if ((boost::asio::error::eof == error) || (boost::asio::error::connection_reset == error))
     {
-        throw socket_output_exception();
+        throw exceptions::stream_reset();
+    }
+    else if (error)
+    {
+        throw exceptions::stream_write_failed();
     }
     return write_len;
 }
@@ -169,7 +173,14 @@ void tcp_stream::async_write_some(const unsigned char* data, const size_t len, a
     auto handle_write = [e](const boost::system::error_code& error, size_t bytes_transferred) -> void
     {
         io::io_result result;
-        if (error)
+        if ((boost::asio::error::eof == error) ||
+            (boost::asio::error::connection_reset == error))
+        {
+            result.is_success = false;
+            result.eof = true;
+            result.bytes_transferred = bytes_transferred;
+        }
+        else if (error)
         {
             result.is_success = false;
             //result.log = error.message();
@@ -195,9 +206,13 @@ size_t tcp_stream::read_some(unsigned char* const buffer, const size_t buf_capac
     ::boost::system::error_code error;
     memset(buffer, 0, (size_t)buf_capacity);
     size_t read_len = (size_t)_socket.read_some(::boost::asio::buffer(buffer, (size_t)buf_capacity), error);
-    if (error)
+    if ((boost::asio::error::eof == error) || (boost::asio::error::connection_reset == error))
     {
-        throw socket_input_exception();
+        throw exceptions::stream_reset();
+    }
+    else if (error)
+    {
+        throw exceptions::stream_read_failed();
     }
     return read_len;
 }
@@ -207,7 +222,14 @@ void tcp_stream::async_read_some(unsigned char* const buffer, const size_t buf_c
     auto handle_read = [buffer, buf_capacity, e](const boost::system::error_code& error, size_t bytes_transferred) -> void
     {
         io::io_result result;
-        if (error)
+        if ((boost::asio::error::eof == error) ||
+            (boost::asio::error::connection_reset == error))
+        {
+            result.is_success = false;
+            result.eof = true;
+            result.bytes_transferred = bytes_transferred;
+        }
+        else if (error)
         {
             result.is_success = false;
             //result.log = error.message();

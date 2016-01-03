@@ -9,7 +9,8 @@ namespace io {
 
 struct io_result
 {
-    bool is_success = 0;
+    bool is_success = false;
+    bool eof = false;
     size_t bytes_transferred = 0;
 };
 

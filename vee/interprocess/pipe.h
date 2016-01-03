@@ -3,6 +3,7 @@
 
 #include <vee/delegate.h>
 #include <vee/io/stream.h>
+#include <vee/interprocess/exception.h>
 
 namespace vee {
 

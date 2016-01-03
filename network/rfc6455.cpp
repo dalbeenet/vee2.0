@@ -551,7 +551,7 @@ net_stream::shared_ptr xwebsocket_server::accept() throw(...)
     }
     else
     {
-        throw rfc6455_handshake_failure();
+        throw exceptions::rfc6455_handshake_failure();
     }
 }
 
@@ -629,12 +629,12 @@ bool xwebsocket_server::_handshake(net_stream& raw_socket)
         // Send response data to client
         raw_socket.write_some((unsigned char*)response_data.data(), response_data.size());
     }
-    catch (socket_corrupted_exception& e)
+    catch (exceptions::stream_corrupted& e)
     {
         printf("websocket_server> exception occured at _handshake() %s\n", e.what());
         return false;
     }
-    catch (socket_io_exception& e)
+    catch (exceptions::stream_io_failed& e)
     {
         printf("websocket_server> exception occured at _handshake() %s\n", e.what());
         return false;
@@ -744,7 +744,7 @@ void xwebsocket_stream::connect(const char* ip_addr, port_t port) throw(...)
     //Temporary validate check process
     if (response.sec_websocket_accept.compare("s3pPLMBiTxaQ9kYGzzhZRbK+xOo=") != 0)
     { // invalid response
-        throw rfc6455_handshake_failure();
+        throw exceptions::rfc6455_handshake_failure();
     }
 #pragma warning(default:4996)
 }
@@ -785,13 +785,13 @@ websocket_stream::websocket_io_result xwebsocket_stream::read_some_all(unsigned 
             auto info = _preprocess_received_data(buffer, bytes_transferred);
             return info.first;
         }
-        catch (rfc6455_heartbeat&)
+        catch (exceptions::rfc6455_heartbeat&)
         {
             continue;
         }
-        catch (rfc6455_connection_close&)
+        catch (exceptions::rfc6455_connection_close&)
         {
-            throw socket_input_exception();
+            throw exceptions::stream_read_failed();
         }
         catch (...)
         {
@@ -812,7 +812,7 @@ void xwebsocket_stream::async_read_some_payload_only(unsigned char* const buffer
 {
     async_read_callback hooker = [this, e](::vee::io::io_result& io_result, unsigned char* const buffer, const uint32_t buf_capacity) -> void
     {
-        if (!io_result.is_success)
+        if (!io_result.is_success || io_result.eof)
         {
             e(io_result, buffer, buf_capacity);
             return;
@@ -825,7 +825,7 @@ void xwebsocket_stream::async_read_some_payload_only(unsigned char* const buffer
             io_result.bytes_transferred = info.first.payload_size;
             e(io_result, buffer, buf_capacity);
         }
-        catch (rfc6455_heartbeat&)
+        catch (exceptions::rfc6455_heartbeat&)
         {
             async_read_some_payload_only(buffer, buf_capacity, e);
             return;
@@ -838,7 +838,7 @@ void xwebsocket_stream::async_read_some_all(unsigned char* const buffer, const u
 {
    async_read_callback hooker = [this, e](::vee::io::io_result& io_result, unsigned char* const buffer, const uint32_t buf_capacity) -> void
     {
-        if (!io_result.is_success)
+        if (!io_result.is_success || io_result.eof)
         {
             e(io_result, buffer, buf_capacity);
             return;
@@ -848,7 +848,7 @@ void xwebsocket_stream::async_read_some_all(unsigned char* const buffer, const u
             auto info = _preprocess_received_data(buffer, io_result.bytes_transferred);
             e(io_result, buffer, buf_capacity);
         }
-        catch (rfc6455_heartbeat&)
+        catch (exceptions::rfc6455_heartbeat&)
         {
             async_read_some_all(buffer, buf_capacity, e);
             return;
@@ -909,7 +909,7 @@ std::pair<websocket_stream::websocket_io_result /*header and payload size*/, dat
     {
     case opcode_id::ping:
     case opcode_id::pong:
-        throw rfc6455_heartbeat();
+        throw exceptions::rfc6455_heartbeat();
     default:
         break;
     }
@@ -917,7 +917,7 @@ std::pair<websocket_stream::websocket_io_result /*header and payload size*/, dat
     // Check the connection close operation
     if (header.opcode == opcode_id::connnection_close)
     {
-        throw rfc6455_connection_close();
+        throw exceptions::rfc6455_connection_close();
     }
 
     // Copy binary data from buffer (DO NOT USE EXTEISNION FLAG!)

@@ -5,16 +5,6 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vee2.0", "vee2.0.vcxproj", "{A78FA93C-3A15-461D-BF81-F49D01DEFE35}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "network_client_test", "network_client_test\network_client_test.vcxproj", "{691D7EEB-0687-492B-B563-627D8860FBD0}"
-	ProjectSection(ProjectDependencies) = postProject
-		{A78FA93C-3A15-461D-BF81-F49D01DEFE35} = {A78FA93C-3A15-461D-BF81-F49D01DEFE35}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "network_server_test", "network_server_test\network_server_test.vcxproj", "{85109370-FFD5-42ED-B68C-F9E2D0BFF82C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{A78FA93C-3A15-461D-BF81-F49D01DEFE35} = {A78FA93C-3A15-461D-BF81-F49D01DEFE35}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_websocket_server", "test_websocket_server\test_websocket_server.vcxproj", "{0B7721ED-271B-4095-9000-8DFC3482EE5D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A78FA93C-3A15-461D-BF81-F49D01DEFE35} = {A78FA93C-3A15-461D-BF81-F49D01DEFE35}
@@ -24,6 +14,20 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_websocket_client", "te
 	ProjectSection(ProjectDependencies) = postProject
 		{A78FA93C-3A15-461D-BF81-F49D01DEFE35} = {A78FA93C-3A15-461D-BF81-F49D01DEFE35}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_pipe_client", "test_pipe_client\test_pipe_client.vcxproj", "{C2377F21-1184-4D9C-8EBD-B05AA59F2AD6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A78FA93C-3A15-461D-BF81-F49D01DEFE35} = {A78FA93C-3A15-461D-BF81-F49D01DEFE35}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_pipe_server", "test_pipe_server\test_pipe_server.vcxproj", "{C7C2D754-BD9D-4781-993A-72F8646FA7AC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A78FA93C-3A15-461D-BF81-F49D01DEFE35} = {A78FA93C-3A15-461D-BF81-F49D01DEFE35}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_tcp_server", "test_tcp_server\test_tcp_server.vcxproj", "{85109370-FFD5-42ED-B68C-F9E2D0BFF82C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_tcp_client", "test_tcp_client\test_tcp_client.vcxproj", "{691D7EEB-0687-492B-B563-627D8860FBD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,18 +46,6 @@ Global
 		{A78FA93C-3A15-461D-BF81-F49D01DEFE35}.Release|Win32.Build.0 = Release|Win32
 		{A78FA93C-3A15-461D-BF81-F49D01DEFE35}.Release|x64.ActiveCfg = Release|x64
 		{A78FA93C-3A15-461D-BF81-F49D01DEFE35}.Release|x64.Build.0 = Release|x64
-		{691D7EEB-0687-492B-B563-627D8860FBD0}.Debug|Win32.ActiveCfg = Debug|Win32
-		{691D7EEB-0687-492B-B563-627D8860FBD0}.Debug|Win32.Build.0 = Debug|Win32
-		{691D7EEB-0687-492B-B563-627D8860FBD0}.Debug|x64.ActiveCfg = Debug|Win32
-		{691D7EEB-0687-492B-B563-627D8860FBD0}.Release|Win32.ActiveCfg = Release|Win32
-		{691D7EEB-0687-492B-B563-627D8860FBD0}.Release|Win32.Build.0 = Release|Win32
-		{691D7EEB-0687-492B-B563-627D8860FBD0}.Release|x64.ActiveCfg = Release|Win32
-		{85109370-FFD5-42ED-B68C-F9E2D0BFF82C}.Debug|Win32.ActiveCfg = Debug|Win32
-		{85109370-FFD5-42ED-B68C-F9E2D0BFF82C}.Debug|Win32.Build.0 = Debug|Win32
-		{85109370-FFD5-42ED-B68C-F9E2D0BFF82C}.Debug|x64.ActiveCfg = Debug|Win32
-		{85109370-FFD5-42ED-B68C-F9E2D0BFF82C}.Release|Win32.ActiveCfg = Release|Win32
-		{85109370-FFD5-42ED-B68C-F9E2D0BFF82C}.Release|Win32.Build.0 = Release|Win32
-		{85109370-FFD5-42ED-B68C-F9E2D0BFF82C}.Release|x64.ActiveCfg = Release|Win32
 		{0B7721ED-271B-4095-9000-8DFC3482EE5D}.Debug|Win32.ActiveCfg = Debug|Win32
 		{0B7721ED-271B-4095-9000-8DFC3482EE5D}.Debug|Win32.Build.0 = Debug|Win32
 		{0B7721ED-271B-4095-9000-8DFC3482EE5D}.Debug|x64.ActiveCfg = Debug|Win32
@@ -66,6 +58,30 @@ Global
 		{CF467C29-D0FD-447E-9AD6-CAD81B825C98}.Release|Win32.ActiveCfg = Release|Win32
 		{CF467C29-D0FD-447E-9AD6-CAD81B825C98}.Release|Win32.Build.0 = Release|Win32
 		{CF467C29-D0FD-447E-9AD6-CAD81B825C98}.Release|x64.ActiveCfg = Release|Win32
+		{C2377F21-1184-4D9C-8EBD-B05AA59F2AD6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C2377F21-1184-4D9C-8EBD-B05AA59F2AD6}.Debug|Win32.Build.0 = Debug|Win32
+		{C2377F21-1184-4D9C-8EBD-B05AA59F2AD6}.Debug|x64.ActiveCfg = Debug|Win32
+		{C2377F21-1184-4D9C-8EBD-B05AA59F2AD6}.Release|Win32.ActiveCfg = Release|Win32
+		{C2377F21-1184-4D9C-8EBD-B05AA59F2AD6}.Release|Win32.Build.0 = Release|Win32
+		{C2377F21-1184-4D9C-8EBD-B05AA59F2AD6}.Release|x64.ActiveCfg = Release|Win32
+		{C7C2D754-BD9D-4781-993A-72F8646FA7AC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C7C2D754-BD9D-4781-993A-72F8646FA7AC}.Debug|Win32.Build.0 = Debug|Win32
+		{C7C2D754-BD9D-4781-993A-72F8646FA7AC}.Debug|x64.ActiveCfg = Debug|Win32
+		{C7C2D754-BD9D-4781-993A-72F8646FA7AC}.Release|Win32.ActiveCfg = Release|Win32
+		{C7C2D754-BD9D-4781-993A-72F8646FA7AC}.Release|Win32.Build.0 = Release|Win32
+		{C7C2D754-BD9D-4781-993A-72F8646FA7AC}.Release|x64.ActiveCfg = Release|Win32
+		{85109370-FFD5-42ED-B68C-F9E2D0BFF82C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{85109370-FFD5-42ED-B68C-F9E2D0BFF82C}.Debug|Win32.Build.0 = Debug|Win32
+		{85109370-FFD5-42ED-B68C-F9E2D0BFF82C}.Debug|x64.ActiveCfg = Debug|Win32
+		{85109370-FFD5-42ED-B68C-F9E2D0BFF82C}.Release|Win32.ActiveCfg = Release|Win32
+		{85109370-FFD5-42ED-B68C-F9E2D0BFF82C}.Release|Win32.Build.0 = Release|Win32
+		{85109370-FFD5-42ED-B68C-F9E2D0BFF82C}.Release|x64.ActiveCfg = Release|Win32
+		{691D7EEB-0687-492B-B563-627D8860FBD0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{691D7EEB-0687-492B-B563-627D8860FBD0}.Debug|Win32.Build.0 = Debug|Win32
+		{691D7EEB-0687-492B-B563-627D8860FBD0}.Debug|x64.ActiveCfg = Debug|Win32
+		{691D7EEB-0687-492B-B563-627D8860FBD0}.Release|Win32.ActiveCfg = Release|Win32
+		{691D7EEB-0687-492B-B563-627D8860FBD0}.Release|Win32.Build.0 = Release|Win32
+		{691D7EEB-0687-492B-B563-627D8860FBD0}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

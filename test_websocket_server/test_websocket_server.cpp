@@ -14,7 +14,7 @@ void session_handler(net::net_stream::shared_ptr session)
             printf("%d bytes transferred, cont: %s\n", bytes_transferred, buffer);
         }
     }
-    catch (socket_io_exception)
+    catch (exceptions::stream_io_failed)
     {
         printf("client disconnected.\n");
     }

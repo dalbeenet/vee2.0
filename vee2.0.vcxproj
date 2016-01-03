@@ -183,6 +183,7 @@
     <ClInclude Include="vee\delegate.h" />
     <ClInclude Include="vee\error.h" />
     <ClInclude Include="vee\exception\exception_base.h" />
+    <ClInclude Include="vee\interprocess\exception.h" />
     <ClInclude Include="vee\interprocess\pipe.h" />
     <ClInclude Include="vee\interprocess\shared_memory.h" />
     <ClInclude Include="vee\io\boost_io_service.h" />
@@ -203,7 +204,9 @@
     <ClCompile Include="code\base64.cpp" />
     <ClCompile Include="code\sha1.cpp" />
     <ClCompile Include="concurrency\mutex.cpp" />
+    <ClCompile Include="interprocess\exception_impl.cpp" />
     <ClCompile Include="interprocess\shared_memory.cpp" />
+    <ClCompile Include="interprocess\win32_named_pipe.cpp" />
     <ClCompile Include="io\async_stream.cpp" />
     <ClCompile Include="io\boost_io_service.cpp" />
     <ClCompile Include="network\net.cpp" />

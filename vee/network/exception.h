@@ -5,59 +5,7 @@
 
 namespace vee {
 
-class socket_accept_exception: public ::std::exception, ::vee::exception
-{
-public:
-    const char* what() __noexcept
-    {
-        return "accept failed";
-    }
-};
-
-class socket_corrupted_exception: public stream_corrupted_exception
-{
-public:
-    const char* what() __noexcept
-    {
-        return "invalid socket";
-    }
-};
-
-class socket_connection_exception: public ::std::exception, ::vee::exception
-{
-public:
-    const char* what() __noexcept
-    {
-        return "socket connection failed";
-    }
-};
-
-class socket_io_exception: public stream_io_exception
-{
-public:
-    const char* what() __noexcept
-    {
-        return "socket I/O failed";
-    }
-};
-
-class socket_output_exception: public socket_io_exception
-{
-public:
-    const char* what() __noexcept
-    {
-        return "socket write failed";
-    }
-};
-
-class socket_input_exception: public socket_io_exception
-{
-public:
-    const char* what() __noexcept
-    {
-        return "socket read failed";
-    }
-};
+namespace exceptions {
 
 class protocol_mismatch_exception: public std::exception, public vee::exception
 {
@@ -94,6 +42,8 @@ public:
         return "RFC6455 connection close signal";
     }
 };
+
+} // !namespace exceptions
 
 } // !namespace vee
 

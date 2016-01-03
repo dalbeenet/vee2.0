@@ -2,7 +2,7 @@
 #include <array>
 using namespace vee;
 using namespace std;
-
+#pragma warning(disable:4996)
 int main()
 {
     auto stream = net::rfc6455::create_stream();
@@ -18,11 +18,11 @@ int main()
             stream->write_some(message.data(), strlen((char*)message.data()));
         }
     }
-    catch (socket_connection_exception& exception)
+    catch (exceptions::stream_open_failed& exception)
     {
         puts(exception.what());
     }
-    catch (socket_output_exception& exception)
+    catch (exceptions::stream_io_failed& exception)
     {
         puts(exception.what());
     }

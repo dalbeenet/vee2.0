@@ -5,7 +5,27 @@
 
 namespace vee {
 
-class stream_corrupted_exception: public ::vee::exception
+namespace exceptions {
+
+class stream_open_failed: public std::exception, public ::vee::exception
+{
+public:
+    const char* what() __noexcept
+    {
+        return "stream creation failed";
+    }
+};
+
+class stream_already_opened: public stream_open_failed
+{
+public:
+    const char* what() __noexcept
+    {
+        return "stream is already opened";
+    }
+};
+
+class stream_corrupted: public std::exception, public ::vee::exception
 {
 public:
     const char* what() __noexcept
@@ -14,8 +34,17 @@ public:
     }
 };
 
-class stream_io_exception: public ::std::exception, public ::vee::exception
-{ 
+class stream_reset: public ::std::exception, public ::vee::exception
+{
+public:
+    const char* what() __noexcept
+    {
+        return "stream reset";
+    }
+};
+
+class stream_io_failed: public ::std::exception, public ::vee::exception
+{
 public:
     const char* what() __noexcept
     {
@@ -23,7 +52,7 @@ public:
     }
 };
 
-class stream_output_exception: public stream_io_exception
+class stream_write_failed: public stream_io_failed
 {
 public:
     const char* what() __noexcept
@@ -32,7 +61,7 @@ public:
     }
 };
 
-class stream_input_exception: public stream_io_exception
+class stream_read_failed: public stream_io_failed
 {
 public:
     const char* what() __noexcept
@@ -40,6 +69,17 @@ public:
         return "stream input failed";
     }
 };
+
+class stream_accept_failed: public ::std::exception, ::vee::exception
+{
+public:
+    const char* what() __noexcept
+    {
+        return "stream accept failed";
+    }
+};
+
+} // !namespace exceptions
 
 } // !namespace vee
 

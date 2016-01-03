@@ -40,6 +40,9 @@
     <Filter Include="interprocess">
       <UniqueIdentifier>{c5234b93-f6b3-454d-9fb3-b37b2ca04913}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vee\test">
+      <UniqueIdentifier>{23a40e5d-d70e-4d25-b2b1-550a9f052f2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vee\concurrency\mutex.h">
@@ -112,7 +115,10 @@
       <Filter>vee\network</Filter>
     </ClInclude>
     <ClInclude Include="vee\test\test_object.h">
-      <Filter>vee</Filter>
+      <Filter>vee\test</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\interprocess\exception.h">
+      <Filter>vee\interprocess</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +151,12 @@
     </ClCompile>
     <ClCompile Include="network\rfc6455.cpp">
       <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="interprocess\win32_named_pipe.cpp">
+      <Filter>interprocess</Filter>
+    </ClCompile>
+    <ClCompile Include="interprocess\exception_impl.cpp">
+      <Filter>interprocess</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
