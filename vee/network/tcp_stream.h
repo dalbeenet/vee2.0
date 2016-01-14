@@ -34,10 +34,11 @@ public:
     virtual void        connect(const char* ip_addr, port_t port) throw(...) override;
     virtual void        async_connect(const char* ip_addr, port_t port, async_connect_callback e) override;
     virtual void        disconnect() override;
-    virtual size_t    write_some(const unsigned char* data, const size_t len) throw(...) override;
+    virtual size_t      write_some(const unsigned char* data, const size_t len) throw(...) override;
     virtual void        async_write_some(const unsigned char* data, const size_t len, async_write_callback e) throw(...) override;
-    virtual size_t    read_some(unsigned char* const buffer, const size_t buf_capacity) throw(...) override;
+    virtual size_t      read_some(unsigned char* const buffer, const size_t buf_capacity) throw(...) override;
     virtual void        async_read_some(unsigned char* const buffer, const size_t buf_capacity, async_read_callback e) throw(...) override;
+    virtual int         socket_id() __noexcept override;
     inline io_service_t& get_io_service() const
     {
         return _host_io_service;

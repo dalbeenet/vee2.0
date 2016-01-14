@@ -255,6 +255,11 @@ void tcp_stream::disconnect()
     _socket.close();
 }
 
+int tcp_stream::socket_id() __noexcept
+{
+    return _socket.native();
+}
+
 net_stream::shared_ptr create_stream()
 {
     //TODO: IO_SERVICE SELECTION

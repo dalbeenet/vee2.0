@@ -8,6 +8,8 @@ namespace interprocess {
 
 namespace windows {
 
+#ifdef VEE_PLATFORM_WINDOWS
+
 class win32_named_pipe: public named_pipe
 {
     DISALLOW_COPY_AND_ASSIGN(win32_named_pipe);
@@ -22,12 +24,12 @@ public:
     virtual void connect(const char* pipe_name,
                          const create_option creation_opt,
                          const data_transfer_mode read_mode,
-                         const uint32_t time_out_millisec) throw(...) override;
+                         const size_t time_out_millisec) throw(...) override;
     virtual void disconnect() __noexcept override;
-    virtual uint32_t write_some(const unsigned char* data, const uint32_t size) throw(...) override;
-    virtual void async_write_some(const unsigned char* data, const uint32_t len, async_write_callback e) throw(...) override;
-    virtual uint32_t read_some(unsigned char* const buffer, const uint32_t buf_capacity) throw(...) override;
-    virtual void async_read_some(unsigned char* const buffer, const uint32_t buf_capacity, async_read_callback e) throw(...) override;
+    virtual size_t write_some(const unsigned char* data, const size_t size) throw(...) override;
+    virtual void async_write_some(const unsigned char* data, const size_t len, async_write_callback e) throw(...) override;
+    virtual size_t read_some(unsigned char* const buffer, const size_t buf_capacity) throw(...) override;
+    virtual void async_read_some(unsigned char* const buffer, const size_t buf_capacity, async_read_callback e) throw(...) override;
     inline ::std::string& pipe_name()
     {
         return _pipe_name;
@@ -48,8 +50,8 @@ public:
     win32_named_pipe_acceptor& operator=(win32_named_pipe_acceptor&& other) __noexcept;
     win32_named_pipe accept(const char* pipe_name,
                             const named_pipe::data_transfer_mode mode,
-                            const uint32_t in_buffer_size,
-                            const uint32_t out_buffer_size) throw(...);
+                            const size_t in_buffer_size,
+                            const size_t out_buffer_size) throw(...);
 };
 
 class win32_named_pipe_server: public named_pipe_server
@@ -65,8 +67,8 @@ public:
     win32_named_pipe_server& operator=(win32_named_pipe_server&&)__noexcept;
     virtual generic_session_ptr     accept(const char* pipe_name,
                                            const named_pipe::data_transfer_mode mode,
-                                           const uint32_t in_buffer_size,
-                                           const uint32_t out_buffer_size) throw(...) override;
+                                           const size_t in_buffer_size,
+                                           const size_t out_buffer_size) throw(...) override;
     virtual void close() __noexcept override;
 protected:
     win32_named_pipe_acceptor _acceptor;
@@ -118,7 +120,7 @@ win32_named_pipe& win32_named_pipe::operator=(win32_named_pipe&& other) __noexce
     return *this;
 }
 
-void win32_named_pipe::connect(const char* pipe_name, const create_option creation_opt, const data_transfer_mode read_mode, const uint32_t time_out_millisec) throw(...)
+void win32_named_pipe::connect(const char* pipe_name, const create_option creation_opt, const data_transfer_mode read_mode, const size_t time_out_millisec) throw(...)
 {
     if (_stream_handler.is_open() == true)
         throw exceptions::stream_already_opened();
@@ -245,7 +247,7 @@ void win32_named_pipe::disconnect() __noexcept
     }
 }
 
-uint32_t win32_named_pipe::read_some(unsigned char* const buffer, const uint32_t buf_capacity) throw(...)
+size_t win32_named_pipe::read_some(unsigned char* const buffer, const size_t buf_capacity) throw(...)
 {
     if (_stream_handler.is_open() == false)
     {
@@ -253,8 +255,8 @@ uint32_t win32_named_pipe::read_some(unsigned char* const buffer, const uint32_t
     }
 
     ::boost::system::error_code error;
-    memset(buffer, 0, (uint32_t)buf_capacity);
-    uint32_t bytes_transferred = (uint32_t)_stream_handler.read_some(::boost::asio::buffer(buffer, (uint32_t)buf_capacity), error);
+    memset(buffer, 0, (size_t)buf_capacity);
+    size_t bytes_transferred = (size_t)_stream_handler.read_some(::boost::asio::buffer(buffer, (size_t)buf_capacity), error);
 
     if (error)
     {
@@ -274,7 +276,7 @@ uint32_t win32_named_pipe::read_some(unsigned char* const buffer, const uint32_t
     return bytes_transferred;
 }
 
-void win32_named_pipe::async_read_some(unsigned char* const buffer, const uint32_t buf_capacity, async_read_callback e) throw(...)
+void win32_named_pipe::async_read_some(unsigned char* const buffer, const size_t buf_capacity, async_read_callback e) throw(...)
 {
     auto handle_read = [buffer, buf_capacity, e](const boost::system::error_code& error, size_t bytes_transferred) -> void
     {
@@ -310,10 +312,10 @@ void win32_named_pipe::async_read_some(unsigned char* const buffer, const uint32
     {
         throw vee::exception("invalid connection!", (int)error_code::closed_stream);
     }*/
-    _stream_handler.async_read_some(::boost::asio::buffer(buffer, (uint32_t)buf_capacity), handle_read);
+    _stream_handler.async_read_some(::boost::asio::buffer(buffer, (size_t)buf_capacity), handle_read);
 }
 
-uint32_t win32_named_pipe::write_some(const unsigned char* data, const uint32_t size) throw(...)
+size_t win32_named_pipe::write_some(const unsigned char* data, const size_t size) throw(...)
 {
     if (_stream_handler.is_open() == false)
     {
@@ -321,7 +323,7 @@ uint32_t win32_named_pipe::write_some(const unsigned char* data, const uint32_t 
     }
 
     ::boost::system::error_code error;
-    uint32_t bytes_transferred = _stream_handler.write_some(::boost::asio::buffer(data, (uint32_t)size), error);
+    size_t bytes_transferred = _stream_handler.write_some(::boost::asio::buffer(data, (size_t)size), error);
     if (error)
     {
         throw exceptions::pipe_write_failed(GetLastError());
@@ -330,7 +332,7 @@ uint32_t win32_named_pipe::write_some(const unsigned char* data, const uint32_t 
     return bytes_transferred;
 }
 
-void win32_named_pipe::async_write_some(const unsigned char* data, const uint32_t len, async_write_callback e) throw(...)
+void win32_named_pipe::async_write_some(const unsigned char* data, const size_t len, async_write_callback e) throw(...)
 {
     auto handle_write = [e](const boost::system::error_code& error, size_t bytes_transferred) -> void
     {
@@ -360,7 +362,7 @@ void win32_named_pipe::async_write_some(const unsigned char* data, const uint32_
     {
         throw vee::exception("invalid connection!", (int)error_code::closed_stream);
     }*/
-    _stream_handler.async_write_some(::boost::asio::buffer(data, (uint32_t)len), handle_write);
+    _stream_handler.async_write_some(::boost::asio::buffer(data, (size_t)len), handle_write);
 }
 
 win32_named_pipe_acceptor::~win32_named_pipe_acceptor() __noexcept
@@ -385,8 +387,8 @@ win32_named_pipe_acceptor& win32_named_pipe_acceptor::operator=(win32_named_pipe
 
 win32_named_pipe win32_named_pipe_acceptor::accept(const char* pipe_name,
                                                    const named_pipe::data_transfer_mode io_mode,
-                                                   const uint32_t in_buffer_size,
-                                                   const uint32_t out_buffer_size) throw(...)
+                                                   const size_t in_buffer_size,
+                                                   const size_t out_buffer_size) throw(...)
 {
     DWORD win32_pipe_type_arg = NULL;
     switch (io_mode)
@@ -449,7 +451,7 @@ win32_named_pipe_server& win32_named_pipe_server::operator=(win32_named_pipe_ser
     return *this;
 }
 
-win32_named_pipe_server::generic_session_ptr win32_named_pipe_server::accept(const char* pipe_name, const named_pipe::data_transfer_mode mode, const uint32_t in_buffer_size, const uint32_t out_buffer_size) throw(...)
+win32_named_pipe_server::generic_session_ptr win32_named_pipe_server::accept(const char* pipe_name, const named_pipe::data_transfer_mode mode, const size_t in_buffer_size, const size_t out_buffer_size) throw(...)
 {
     generic_session_ptr generic_session = std::make_shared<session_t>(_acceptor.accept(pipe_name, mode, in_buffer_size, out_buffer_size));
     return generic_session;
@@ -471,6 +473,8 @@ void win32_named_pipe_server::close() __noexcept
     ::std::shared_ptr<named_pipe> pipe = ::std::make_shared<win32_named_pipe>();
     return pipe;
 }
+
+#endif
 
 } // !namespace windows
 

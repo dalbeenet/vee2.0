@@ -278,7 +278,7 @@ void server_response::clear()
 
 namespace dataframe {
 
-void header::analyze(const unsigned char* raw_data, const uint32_t length)
+void header::analyze(const unsigned char* raw_data, const size_t length)
 {
     if (!raw_data) return;
 
@@ -660,12 +660,13 @@ public:
     virtual void async_connect(const char* ip_addr, port_t port, std::function<VEE_NET_ASYNC_CONNECT_CALLBACK_SIGNATURE> e) override;
     virtual void disconnect() override;
     //! Read and Write operations require additional space to accommodate the Websocket data frame header in the data buffer.
-    virtual websocket_io_result write_some(opcode_id opcode, const unsigned char* data, const uint32_t len) throw(...) override;
-    virtual void          async_write_some(opcode_id opcode, const unsigned char* data, const uint32_t len, async_write_callback e) throw(...) override;
-    virtual websocket_io_result read_some_payload_only(unsigned char* const buffer, const uint32_t buf_capacity) throw(...) override;
-    virtual websocket_io_result read_some_all(unsigned char* const buffer, const uint32_t buf_capacity) throw(...) override;
-    virtual void      async_read_some_payload_only(unsigned char* const buffer, const uint32_t buf_capacity, async_read_callback e) throw(...) override;
-    virtual void      async_read_some_all(unsigned char* const buffer, const uint32_t buf_capacity, async_read_callback e) throw(...) override;
+    virtual websocket_io_result write_some(opcode_id opcode, const unsigned char* data, const size_t len) throw(...) override;
+    virtual void          async_write_some(opcode_id opcode, const unsigned char* data, const size_t len, async_write_callback e) throw(...) override;
+    virtual websocket_io_result read_some_payload_only(unsigned char* const buffer, const size_t buf_capacity) throw(...) override;
+    virtual websocket_io_result read_some_all(unsigned char* const buffer, const size_t buf_capacity) throw(...) override;
+    virtual void      async_read_some_payload_only(unsigned char* const buffer, const size_t buf_capacity, async_read_callback e) throw(...) override;
+    virtual void      async_read_some_all(unsigned char* const buffer, const size_t buf_capacity, async_read_callback e) throw(...) override;
+    virtual int       socket_id() __noexcept;
     inline io_service_t& get_io_service() const
     {
         return *_host_io_service_ptr;
@@ -673,8 +674,8 @@ public:
     void conversion(tcp_stream&& stream);
 
 protected:
-    std::pair<websocket_io_result /*header and payload size*/, std::vector<unsigned char> /*data*/> _convert_to_websocket_form(opcode_id opcode, const unsigned char* data, const uint32_t len);
-    std::pair<websocket_io_result /*header and payload size*/, dataframe::header /*header*/> _preprocess_received_data(unsigned char* const data, const uint32_t len) throw(...);
+    std::pair<websocket_io_result /*header and payload size*/, std::vector<unsigned char> /*data*/> _convert_to_websocket_form(opcode_id opcode, const unsigned char* data, const size_t len);
+    std::pair<websocket_io_result /*header and payload size*/, dataframe::header /*header*/> _preprocess_received_data(unsigned char* const data, const size_t len) throw(...);
 protected:
     io_service_t* _host_io_service_ptr;
     tcp_stream _tcp_stream;
@@ -762,26 +763,26 @@ void xwebsocket_stream::disconnect()
     _tcp_stream.disconnect();
 }
 
-websocket_stream::websocket_io_result xwebsocket_stream::write_some(opcode_id opcode, const unsigned char* data, const uint32_t len) throw(...)
+websocket_stream::websocket_io_result xwebsocket_stream::write_some(opcode_id opcode, const unsigned char* data, const size_t len) throw(...)
 {
     auto ws_packet = _convert_to_websocket_form(opcode, data, len);
     _tcp_stream.write_some(ws_packet.second.data(), ws_packet.second.size());
     return ws_packet.first; // return io_result
 }
 
-void xwebsocket_stream::async_write_some(opcode_id opcode, const unsigned char* data, const uint32_t len, async_write_callback e) throw(...)
+void xwebsocket_stream::async_write_some(opcode_id opcode, const unsigned char* data, const size_t len, async_write_callback e) throw(...)
 {
     auto packet = _convert_to_websocket_form(opcode, data, len);
     _tcp_stream.async_write_some(packet.second.data(), packet.first.header_size + len, std::move(e));
 }
 
-websocket_stream::websocket_io_result xwebsocket_stream::read_some_all(unsigned char* const buffer, const uint32_t buf_capacity) throw(...)
+websocket_stream::websocket_io_result xwebsocket_stream::read_some_all(unsigned char* const buffer, const size_t buf_capacity) throw(...)
 {
     while (true)
     {
         try
         {
-            uint32_t bytes_transferred = _tcp_stream.read_some(buffer, buf_capacity);
+            size_t bytes_transferred = _tcp_stream.read_some(buffer, buf_capacity);
             auto info = _preprocess_received_data(buffer, bytes_transferred);
             return info.first;
         }
@@ -800,7 +801,7 @@ websocket_stream::websocket_io_result xwebsocket_stream::read_some_all(unsigned 
     }
 }
 
-websocket_stream::websocket_io_result xwebsocket_stream::read_some_payload_only(unsigned char* const buffer, const uint32_t buf_capacity) throw(...)
+websocket_stream::websocket_io_result xwebsocket_stream::read_some_payload_only(unsigned char* const buffer, const size_t buf_capacity) throw(...)
 {
     websocket_io_result result = read_some_all(buffer, buf_capacity);
     memmove(buffer, buffer + result.header_size, (uint32_t)(result.payload_size));
@@ -808,9 +809,9 @@ websocket_stream::websocket_io_result xwebsocket_stream::read_some_payload_only(
     return result;
 }
 
-void xwebsocket_stream::async_read_some_payload_only(unsigned char* const buffer, const uint32_t buf_capacity, async_read_callback e) throw(...)
+void xwebsocket_stream::async_read_some_payload_only(unsigned char* const buffer, const size_t buf_capacity, async_read_callback e) throw(...)
 {
-    async_read_callback hooker = [this, e](::vee::io::io_result& io_result, unsigned char* const buffer, const uint32_t buf_capacity) -> void
+    async_read_callback hooker = [this, e](::vee::io::io_result& io_result, unsigned char* const buffer, const size_t buf_capacity) -> void
     {
         if (!io_result.is_success || io_result.eof)
         {
@@ -834,9 +835,9 @@ void xwebsocket_stream::async_read_some_payload_only(unsigned char* const buffer
     _tcp_stream.async_read_some(buffer, buf_capacity, hooker);
 }
 
-void xwebsocket_stream::async_read_some_all(unsigned char* const buffer, const uint32_t buf_capacity, async_read_callback e) throw(...)
+void xwebsocket_stream::async_read_some_all(unsigned char* const buffer, const size_t buf_capacity, async_read_callback e) throw(...)
 {
-   async_read_callback hooker = [this, e](::vee::io::io_result& io_result, unsigned char* const buffer, const uint32_t buf_capacity) -> void
+    async_read_callback hooker = [this, e](::vee::io::io_result& io_result, unsigned char* const buffer, const size_t buf_capacity) -> void
     {
         if (!io_result.is_success || io_result.eof)
         {
@@ -863,13 +864,18 @@ void xwebsocket_stream::conversion(tcp_stream&& stream)
     _host_io_service_ptr = &(_tcp_stream.get_io_service());
 }
 
+int xwebsocket_stream::socket_id() __noexcept
+{
+    return _tcp_stream.socket_id();
+}
+
 ::std::shared_ptr<net_server> create_server(unsigned short port)
 {
     ::std::shared_ptr<net_server> server = ::std::make_shared<xwebsocket_server>(port);
     return server;
 }
 
-std::pair<websocket_stream::websocket_io_result /*header and payload size*/, ::std::vector<unsigned char> /*data*/> xwebsocket_stream::_convert_to_websocket_form(opcode_id opcode, const unsigned char* data, const uint32_t len)
+std::pair<websocket_stream::websocket_io_result /*header and payload size*/, ::std::vector<unsigned char> /*data*/> xwebsocket_stream::_convert_to_websocket_form(opcode_id opcode, const unsigned char* data, const size_t len)
 {
     dataframe::header header;
     header.fin = true; //TODO: 쪼개서 보내는 함수 지원하기, 지금은 무조건 한번에 다! 보낸다! 스펙상 INT64_MAX만큼 한번에 보낼 수 있지만 브라우저가 뻗을 듯
@@ -896,11 +902,11 @@ std::pair<websocket_stream::websocket_io_result /*header and payload size*/, ::s
     return ret;
 }
 
-std::pair<websocket_stream::websocket_io_result /*header and payload size*/, dataframe::header /*header*/> xwebsocket_stream::_preprocess_received_data(unsigned char* const data, const uint32_t len) throw(...)
+std::pair<websocket_stream::websocket_io_result /*header and payload size*/, dataframe::header /*header*/> xwebsocket_stream::_preprocess_received_data(unsigned char* const data, const size_t len) throw(...)
 {
     //ISSUE: FIN 패킷이 아닐 때 인터페이스에 맞춰주는 코드.... 필요할까?
     std::pair<websocket_stream::websocket_io_result /*header and payload size*/, dataframe::header /*header*/> ret;
-    uint32_t bytes_transferred = len;
+    size_t bytes_transferred = len;
     websocket_io_result& io_result = ret.first;
     dataframe::header& header = ret.second;
 

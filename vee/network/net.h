@@ -39,6 +39,7 @@ public:
     virtual void    async_connect(const char* ipv4, port_t port, async_connect_delegate::shared_ptr& sptr_e);
     virtual void    async_connect(const char* ipv4, port_t port, async_connect_delegate::shared_ptr&& sptr_e);
     virtual void    async_connect(const char* ipv4, port_t port, async_connect_callback callback) = 0;
+    virtual int     socket_id() __noexcept = 0;
 };
 
 class net_server abstract
@@ -142,7 +143,7 @@ struct header
     opcode_id opcode = opcode_id::undefined;
     std::array<unsigned char, 4> masking_key;
     //std::vector<unsigned char> payload;
-    void analyze(const unsigned char* raw_data, const uint32_t length);
+    void analyze(const unsigned char* raw_data, const size_t length);
     uint32_t binary_pack(opcode_id opcode, unsigned char* out_buffer) const;
     uint32_t binary_pack_size() const;
     void randomize_mask();
