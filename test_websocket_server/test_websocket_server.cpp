@@ -10,7 +10,7 @@ void session_handler(net::net_stream::shared_ptr session)
         while (true)
         {
             unsigned char buffer[1024];
-            unsigned int bytes_transferred = session->read_some(buffer, 1024);
+            size_t bytes_transferred = session->read_some(buffer, 1024);
             printf("%d bytes transferred, cont: %s\n", bytes_transferred, buffer);
         }
     }
@@ -22,7 +22,7 @@ void session_handler(net::net_stream::shared_ptr session)
 
 void async_session_handler(net::net_stream::shared_ptr session,::vee::io::io_result& io_result, unsigned char* const buffer, size_t bufsize)
 {
-    if (!io_result.is_success)
+    if (!io_result.is_success || !io_result.eof)
     {
         printf("client disconnected.\n");
         return;

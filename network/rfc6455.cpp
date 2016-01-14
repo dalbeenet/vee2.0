@@ -831,6 +831,12 @@ void xwebsocket_stream::async_read_some_payload_only(unsigned char* const buffer
             async_read_some_payload_only(buffer, buf_capacity, e);
             return;
         }
+        catch (exceptions::rfc6455_connection_close&)
+        {
+            io_result.eof = true;
+            e(io_result, buffer, buf_capacity);
+            return;
+        }
     };
     _tcp_stream.async_read_some(buffer, buf_capacity, hooker);
 }
@@ -852,6 +858,12 @@ void xwebsocket_stream::async_read_some_all(unsigned char* const buffer, const s
         catch (exceptions::rfc6455_heartbeat&)
         {
             async_read_some_all(buffer, buf_capacity, e);
+            return;
+        }
+        catch (exceptions::rfc6455_connection_close&)
+        {
+            io_result.eof = true;
+            e(io_result, buffer, buf_capacity);
             return;
         }
     };
