@@ -38,7 +38,7 @@ public:
     virtual void        async_write_some(const unsigned char* data, const size_t len, async_write_callback e) throw(...) override;
     virtual size_t      read_some(unsigned char* const buffer, const size_t buf_capacity) throw(...) override;
     virtual void        async_read_some(unsigned char* const buffer, const size_t buf_capacity, async_read_callback e) throw(...) override;
-    virtual int         socket_id() __noexcept override;
+    virtual socketfd_t  socket_id() __noexcept override;
     inline io_service_t& get_io_service() const
     {
         return _host_io_service;

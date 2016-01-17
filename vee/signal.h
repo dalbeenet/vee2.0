@@ -96,7 +96,7 @@ public:
         std::promise<int> receiver;
         std::future<int> future = receiver.get_future();
         _receiver_ptr = &receiver;
-        auto result = future.get();
+        /*auto result = */future.get();
         _receiver_ptr = nullptr;
         while (!_compare_and_swap_weak(_state, SIG, IDLE));
     }

@@ -5,9 +5,9 @@ using namespace std;
 
 using session_t = net::net_stream::shared_ptr;
 
-void handler(uint32_t session_id, session_t session, io::io_result& io_result, unsigned char* const buf_addr, uint32_t buf_size)
+void handler(uint32_t session_id, session_t session, io::io_result& io_result, unsigned char* const buf_addr, size_t buf_size)
 {
-    if (!io_result.is_success || !io_result.eof)
+    if (!io_result.is_success || io_result.eof)
     {
         printf("client %d disconnected.\n", session_id);
         delete[] buf_addr;

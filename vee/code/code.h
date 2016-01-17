@@ -7,14 +7,14 @@
 
 namespace vee {
 
-class sha1: static_class
+class sha1 abstract
 {
 public:
     static ::std::vector<unsigned char> hashing(const ::std::string& dst);
     static void print(::std::vector<unsigned char>& dst);
 };
 
-class base64: static_class
+class base64 abstract
 {
 public:
     static ::std::string decode(const ::std::string &dst);

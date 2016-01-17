@@ -70,7 +70,7 @@ public:
     }
 };
 
-class stream_accept_failed: public ::std::exception, ::vee::exception
+class stream_accept_failed: public ::std::exception, public ::vee::exception
 {
 public:
     const char* what() __noexcept

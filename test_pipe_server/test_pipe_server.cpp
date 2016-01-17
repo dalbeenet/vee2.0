@@ -13,7 +13,7 @@ void session_handler(session_t session)
         while (true)
         {
             unsigned char buffer[1024];
-            unsigned int bytes_transferred = session->read_some(buffer, 1024);
+            size_t bytes_transferred = session->read_some(buffer, 1024);
             printf("%d bytes transferred, cont: %s\n", bytes_transferred, buffer);
         }
     }

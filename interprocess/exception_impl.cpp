@@ -12,6 +12,17 @@ gle(_gle)
     sprintf(_desc, "pipe creation failed (gle: %d)", gle);
 }
 
+//pipe_creation_failed::pipe_creation_failed(const pipe_creation_failed& other):
+//
+//{
+//
+//}
+//
+//pipe_creation_failed& pipe_creation_failed::operator=(const pipe_creation_failed& other)
+//{
+//    memmove(_desc, other._desc, 256);
+//}
+
 pipe_wait_timeout::pipe_wait_timeout(int _gle):
 gle(_gle)
 {

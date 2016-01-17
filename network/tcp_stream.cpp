@@ -255,9 +255,10 @@ void tcp_stream::disconnect()
     _socket.close();
 }
 
-int tcp_stream::socket_id() __noexcept
+tcp_stream::socketfd_t tcp_stream::socket_id() __noexcept
 {
-    return _socket.native();
+    SOCKET ret = _socket.native();
+    return ret;
 }
 
 net_stream::shared_ptr create_stream()

@@ -78,14 +78,24 @@ public:
             );
         return region;
     }
+    bool remove()
+    {
+        remove(shm_name.c_str());
+    }
+#if VEE_PLATFORM_WINDOWS
+#pragma warning(disable:4100)
     static bool remove(const char* name)
     {
-#if VEE_PLATFORM_WINDOWS
         return false;
-#else
-        return boost::interprocess::shared_memory_object::remove(name);
-#endif
     }
+#pragma warning(default:4100)
+#else
+    static bool remove(const char* name)
+    {
+        return boost::interprocess::shared_memory_object::remove(name);
+    }
+#endif
+
     virtual void*        get_address() const override;
     virtual unsigned int get_size() const override;
     virtual const char*  get_name() const override;

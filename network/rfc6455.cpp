@@ -31,7 +31,8 @@ void client_request::print() const
 
 void client_request::parse(const char* data)
 {
-    return parse(::std::string(data));
+    ::std::string s(data);
+    return parse(s);
 }
 
 void client_request::parse(::std::string& data)
@@ -65,6 +66,14 @@ void client_request::parse(::std::string& data)
         }
     };
 
+    auto set_value = [](::std::pair<bool, ::std::string>&& result, ::std::string& dst) -> void
+    {
+        if (result.first == true)
+        {
+            dst = std::move(result.second);
+        }
+    };
+
     /*printf("DATA RECIEVED --------------\n");
     for (auto& it : data_by_lines)
     {
@@ -73,14 +82,6 @@ void client_request::parse(::std::string& data)
 
     for (auto& it : data_by_lines)
     {
-        auto set_value = [](::std::pair<bool, ::std::string>& result, ::std::string& dst) -> void
-        {
-            if (result.first == true)
-            {
-                dst = std::move(result.second);
-            }
-        };
-
         if (strstr(it.data(), "GET"))
         {
             request_uri = it;
@@ -177,7 +178,8 @@ void client_request::clear()
 #pragma region server_response implementation
 void server_response::parse(const char* data)
 {
-    return parse(::std::string(data));
+    ::std::string s(data);
+    return parse(s);
 }
 
 void server_response::parse(::std::string& data)
@@ -211,15 +213,16 @@ void server_response::parse(::std::string& data)
         }
     };
 
+    auto set_value = [](::std::pair<bool, ::std::string>&& result, ::std::string& dst) -> void
+    {
+        if (result.first == true)
+        {
+            dst = std::move(result.second);
+        }
+    };
+
     for (auto& it : data_by_lines)
     {
-        auto set_value = [](::std::pair<bool, ::std::string>& result, ::std::string& dst) -> void
-        {
-            if (result.first == true)
-            {
-                dst = std::move(result.second);
-            }
-        };
 
         if (strstr(it.data(), "HTTP/1.1 101 Switching Protocols"))
         {
@@ -278,13 +281,13 @@ void server_response::clear()
 
 namespace dataframe {
 
-void header::analyze(const unsigned char* raw_data, const size_t length)
+bool header::analyze(const unsigned char* raw_data, const size_t length)
 {
-    if (!raw_data) return;
-
+    if (!raw_data) return false;
+    if (length < 2) return false;
     unsigned int shift = 0;
     // analyze a first byte
-    memmove(&fin_opcode, raw_data + shift++, 1);
+    memmove(&fin_opcode, raw_data + shift++, sizeof(int8_t));
     fin = ((fin_opcode & 0x80) >> 7) ? true : false;
     switch ((fin_opcode & 0x0f))
     {
@@ -313,21 +316,25 @@ void header::analyze(const unsigned char* raw_data, const size_t length)
     //TODO: RSV1~3 (Extension flag) processing 
 
     // analyze a second byte
-    memmove(&mask_payload_len, raw_data + shift++, 1);
+    memmove(&mask_payload_len, raw_data + shift++, sizeof(int8_t));
     use_mask = ((mask_payload_len & 0x80) >> 7) ? true : false;
     payload_len = (mask_payload_len & 0x7f);
     if (payload_len == 0x7e)
     {
-        memmove(&extended_payload_len16, raw_data + shift, 2);
+        if (length < (shift + sizeof(int16_t)))
+            return false;
+        memmove(&extended_payload_len16, raw_data + shift, sizeof(int16_t));
         payload_len = boost::endian::big_to_native(extended_payload_len16);
-        shift += 2;
+        shift += sizeof(int16_t);
         //x use_extended16_payload = true;
     }
     else if (payload_len == 0x7f)
     {
-        memmove(&extended_payload_len64, raw_data + shift, 8);
+        if (length < (shift + sizeof(int64_t)))
+            return false;
+        memmove(&extended_payload_len64, raw_data + shift, sizeof(int64_t));
         payload_len = boost::endian::big_to_native(extended_payload_len64);
-        shift += 8;
+        shift += sizeof(int64_t);
         //x use_extended64_payload = true;
     }
     else
@@ -342,8 +349,10 @@ void header::analyze(const unsigned char* raw_data, const size_t length)
         //x ::std::array<unsigned char, 4> mask_key_buffer;
         //memmove(mask_key_buffer.data(), raw_data + shift, 4);
         //x std::reverse_copy(mask_key_buffer.begin(), mask_key_buffer.end(), masking_key.begin());
-        memmove(masking_key.data(), raw_data + shift, 4);
-        shift += 4;
+        if (length < (shift + sizeof(int32_t)))
+            return false;
+        memmove(masking_key.data(), raw_data + shift, sizeof(int32_t));
+        shift += sizeof(int32_t);
     }
 
     payload_pos = shift;
@@ -353,7 +362,7 @@ void header::analyze(const unsigned char* raw_data, const size_t length)
     //x payload.resize(length - shift);
     //x memmove(&payload[0], raw_data + shift, length - shift);
 
-    return;
+    return true;
 }
 
 uint32_t header::binary_pack(opcode_id opcode, unsigned char* out_buffer) const
@@ -453,13 +462,13 @@ uint32_t header::binary_pack_size() const
 
     if ((mask_payload_len_block & (~0x80)) == 0x7e)
     {
-        int16_t extended_payload_len_16 = boost::endian::native_to_big((int16_t)payload_len);
+        //int16_t extended_payload_len_16 = boost::endian::native_to_big((int16_t)payload_len);
         //x memmove(out_buffer + shift, &extended_payload_len_16, 2);
         shift += 2;
     }
     else if ((mask_payload_len_block & (~0x80)) == 0x7f)
     {
-        int64_t extended_payload_len_64 = boost::endian::native_to_big((int64_t)payload_len);
+        //int64_t extended_payload_len_64 = boost::endian::native_to_big((int64_t)payload_len);
         //x memmove(out_buffer + shift, &extended_payload_len_64, 8);
         shift += 8;
     }
@@ -479,7 +488,7 @@ void header::randomize_mask()
     static ::std::uniform_int_distribution<int> distribution(0, 127);
     static auto generator = ::std::bind(distribution, engine);
     for (unsigned char& octet : masking_key)
-        octet = generator();
+        octet = static_cast<unsigned char>(generator());
     printf("DEBUG> Masking key: %d %d %d %d\n", masking_key[0], masking_key[1], masking_key[2], masking_key[3]);
 }
 
@@ -592,7 +601,10 @@ bool xwebsocket_server::_handshake(net_stream& raw_socket)
 
         // Parsing HTTP header
         handshake::client_request header;
-        header.parse(::std::string((char*)buffer.data()));
+        {
+            ::std::string s((char*)buffer.data());
+            header.parse(s);
+        }
 
         // Validating the client header
         if (header.is_valid() == false)
@@ -666,7 +678,7 @@ public:
     virtual websocket_io_result read_some_all(unsigned char* const buffer, const size_t buf_capacity) throw(...) override;
     virtual void      async_read_some_payload_only(unsigned char* const buffer, const size_t buf_capacity, async_read_callback e) throw(...) override;
     virtual void      async_read_some_all(unsigned char* const buffer, const size_t buf_capacity, async_read_callback e) throw(...) override;
-    virtual int       socket_id() __noexcept;
+    virtual socketfd_t socket_id() __noexcept override;
     inline io_service_t& get_io_service() const
     {
         return *_host_io_service_ptr;
@@ -778,6 +790,7 @@ void xwebsocket_stream::async_write_some(opcode_id opcode, const unsigned char* 
 
 websocket_stream::websocket_io_result xwebsocket_stream::read_some_all(unsigned char* const buffer, const size_t buf_capacity) throw(...)
 {
+#pragma warning(disable:4127)
     while (true)
     {
         try
@@ -799,6 +812,7 @@ websocket_stream::websocket_io_result xwebsocket_stream::read_some_all(unsigned 
             throw;
         }
     }
+#pragma warning(default:4127)
 }
 
 websocket_stream::websocket_io_result xwebsocket_stream::read_some_payload_only(unsigned char* const buffer, const size_t buf_capacity) throw(...)
@@ -876,7 +890,7 @@ void xwebsocket_stream::conversion(tcp_stream&& stream)
     _host_io_service_ptr = &(_tcp_stream.get_io_service());
 }
 
-int xwebsocket_stream::socket_id() __noexcept
+xwebsocket_stream::socketfd_t xwebsocket_stream::socket_id() __noexcept
 {
     return _tcp_stream.socket_id();
 }
@@ -948,8 +962,8 @@ std::pair<websocket_stream::websocket_io_result /*header and payload size*/, dat
         }
     }
 
-    ret.first.header_size = bytes_transferred - (uint32_t)header.payload_len;
-    ret.first.payload_size = (uint32_t)header.payload_len;
+    io_result.header_size = bytes_transferred - (uint32_t)header.payload_len;
+    io_result.payload_size = (uint32_t)header.payload_len;
 
     return ret;
 }

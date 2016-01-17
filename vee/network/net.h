@@ -30,6 +30,11 @@ public:
     using async_connect_callback = ::std::function<VEE_NET_ASYNC_CONNECT_CALLBACK_SIGNATURE>;
     using unique_ptr = ::std::unique_ptr<net_stream>;
     using shared_ptr = ::std::shared_ptr<net_stream>;
+#if VEE_PLATFORM_X32
+    using socketfd_t = uint32_t;
+#elif VEE_PLATFORM_X64
+    using socketfd_t = uint64_t;
+#endif
 
     virtual ~net_stream() = default;
     virtual void    connect(const char* ipv4, port_t port) throw(...) = 0;
@@ -39,7 +44,7 @@ public:
     virtual void    async_connect(const char* ipv4, port_t port, async_connect_delegate::shared_ptr& sptr_e);
     virtual void    async_connect(const char* ipv4, port_t port, async_connect_delegate::shared_ptr&& sptr_e);
     virtual void    async_connect(const char* ipv4, port_t port, async_connect_callback callback) = 0;
-    virtual int     socket_id() __noexcept = 0;
+    virtual socketfd_t  socket_id() __noexcept = 0;
 };
 
 class net_server abstract
@@ -143,7 +148,7 @@ struct header
     opcode_id opcode = opcode_id::undefined;
     std::array<unsigned char, 4> masking_key;
     //std::vector<unsigned char> payload;
-    void analyze(const unsigned char* raw_data, const size_t length);
+    bool analyze(const unsigned char* raw_data, const size_t length);
     uint32_t binary_pack(opcode_id opcode, unsigned char* out_buffer) const;
     uint32_t binary_pack_size() const;
     void randomize_mask();

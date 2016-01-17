@@ -76,7 +76,7 @@ void websocket_stream::async_write_some(opcode_id opcode, const unsigned char* d
     {
         e_ptr->operator()(result);
     };
-    return async_write_some(opcode_id::binary_frame, data, len, caller);
+    return async_write_some(opcode, data, len, caller);
 }
 
 void websocket_stream::async_write_some(opcode_id opcode, const unsigned char* data, size_t len, async_write_delegate::shared_ptr&& e_ptr) throw(...)
@@ -85,7 +85,7 @@ void websocket_stream::async_write_some(opcode_id opcode, const unsigned char* d
     {
         e_ptr->operator()(result);
     };
-    return async_write_some(opcode_id::binary_frame, data, len, caller);
+    return async_write_some(opcode, data, len, caller);
 }
 
 size_t websocket_stream::read_some(unsigned char* const buffer, size_t buf_capacity) throw(...)

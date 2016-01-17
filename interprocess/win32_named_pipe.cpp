@@ -44,10 +44,10 @@ class win32_named_pipe_acceptor
 {
     DISALLOW_COPY_AND_ASSIGN(win32_named_pipe_acceptor);
 public:
-    ~win32_named_pipe_acceptor() __noexcept;
-    win32_named_pipe_acceptor() __noexcept;
-    win32_named_pipe_acceptor(win32_named_pipe_acceptor&& other) __noexcept;
-    win32_named_pipe_acceptor& operator=(win32_named_pipe_acceptor&& other) __noexcept;
+    ~win32_named_pipe_acceptor() = default;
+    win32_named_pipe_acceptor() = default;
+    //win32_named_pipe_acceptor(win32_named_pipe_acceptor&& other) = default;
+    //win32_named_pipe_acceptor& operator=(win32_named_pipe_acceptor&& other) = default;
     win32_named_pipe accept(const char* pipe_name,
                             const named_pipe::data_transfer_mode mode,
                             const size_t in_buffer_size,
@@ -61,10 +61,10 @@ public:
     using session_t = win32_named_pipe;
     using session_ptr = ::std::shared_ptr<session_t>;
     using generic_session_ptr = ::std::shared_ptr<named_pipe>;
-    virtual ~win32_named_pipe_server() __noexcept;
-    win32_named_pipe_server() __noexcept;
-    win32_named_pipe_server(win32_named_pipe_server&&) __noexcept;
-    win32_named_pipe_server& operator=(win32_named_pipe_server&&)__noexcept;
+    virtual ~win32_named_pipe_server() = default;
+    win32_named_pipe_server() = default;
+    //win32_named_pipe_server(win32_named_pipe_server&&) = default;
+    //win32_named_pipe_server& operator=(win32_named_pipe_server&&) = default;
     virtual generic_session_ptr     accept(const char* pipe_name,
                                            const named_pipe::data_transfer_mode mode,
                                            const size_t in_buffer_size,
@@ -165,7 +165,6 @@ void win32_named_pipe::connect(const char* pipe_name, const create_option creati
         if (pipe_handle == INVALID_HANDLE_VALUE && error != ERROR_PIPE_BUSY)
         {
             // Throw an exception if an error other than ERROR_PIPE_BUSY occurs.    
-            char buffer[256] = { 0, };
             throw exceptions::pipe_creation_failed(error);
         }
         else if (error == ERROR_PIPE_BUSY)
@@ -184,7 +183,7 @@ void win32_named_pipe::connect(const char* pipe_name, const create_option creati
                 time_out_arg = NMPWAIT_NOWAIT;
                 break;
             default:
-                time_out_arg = time_out_millisec;
+                time_out_arg = static_cast<DWORD>(time_out_millisec);
                 break;
             }
             if (!WaitNamedPipeA(pipe_name, time_out_arg))
@@ -365,25 +364,25 @@ void win32_named_pipe::async_write_some(const unsigned char* data, const size_t 
     _stream_handler.async_write_some(::boost::asio::buffer(data, (size_t)len), handle_write);
 }
 
-win32_named_pipe_acceptor::~win32_named_pipe_acceptor() __noexcept
-{
-
-}
-
-win32_named_pipe_acceptor::win32_named_pipe_acceptor() __noexcept
-{
-
-}
-
-win32_named_pipe_acceptor::win32_named_pipe_acceptor(win32_named_pipe_acceptor&& other)
-{
-
-}
-
-win32_named_pipe_acceptor& win32_named_pipe_acceptor::operator=(win32_named_pipe_acceptor&& other)
-{
-    return *this;
-}
+//win32_named_pipe_acceptor::~win32_named_pipe_acceptor() __noexcept
+//{
+//
+//}
+//
+//win32_named_pipe_acceptor::win32_named_pipe_acceptor() __noexcept
+//{
+//
+//}
+//
+//win32_named_pipe_acceptor::win32_named_pipe_acceptor(win32_named_pipe_acceptor&& other)
+//{
+//
+//}
+//
+//win32_named_pipe_acceptor& win32_named_pipe_acceptor::operator=(win32_named_pipe_acceptor&& other)
+//{
+//    return *this;
+//}
 
 win32_named_pipe win32_named_pipe_acceptor::accept(const char* pipe_name,
                                                    const named_pipe::data_transfer_mode io_mode,
@@ -407,8 +406,8 @@ win32_named_pipe win32_named_pipe_acceptor::accept(const char* pipe_name,
         PIPE_ACCESS_DUPLEX | FILE_FLAG_OVERLAPPED,  // read and wirte access
         win32_pipe_type_arg | PIPE_WAIT, // pipe mode | blocking_mode
         PIPE_UNLIMITED_INSTANCES,// max. instances
-        in_buffer_size,
-        out_buffer_size,
+        static_cast<DWORD>(in_buffer_size),
+        static_cast<DWORD>(out_buffer_size),
         NMPWAIT_USE_DEFAULT_WAIT, // client time-out
         NULL // default security attribute
         );
@@ -431,25 +430,25 @@ win32_named_pipe win32_named_pipe_acceptor::accept(const char* pipe_name,
 
 //////////////////////////////////////////////////////////////////////////
 
-win32_named_pipe_server::~win32_named_pipe_server() __noexcept
-{
-
-}
-
-win32_named_pipe_server::win32_named_pipe_server() __noexcept
-{
-
-}
-
-win32_named_pipe_server::win32_named_pipe_server(win32_named_pipe_server&& other) __noexcept
-{
-
-}
-
-win32_named_pipe_server& win32_named_pipe_server::operator=(win32_named_pipe_server&& other) __noexcept
-{
-    return *this;
-}
+//win32_named_pipe_server::~win32_named_pipe_server() __noexcept
+//{
+//
+//}
+//
+//win32_named_pipe_server::win32_named_pipe_server() __noexcept
+//{
+//
+//}
+//
+//win32_named_pipe_server::win32_named_pipe_server(win32_named_pipe_server&& other) __noexcept
+//{
+//
+//}
+//
+//win32_named_pipe_server& win32_named_pipe_server::operator=(win32_named_pipe_server&& other) __noexcept
+//{
+//    return *this;
+//}
 
 win32_named_pipe_server::generic_session_ptr win32_named_pipe_server::accept(const char* pipe_name, const named_pipe::data_transfer_mode mode, const size_t in_buffer_size, const size_t out_buffer_size) throw(...)
 {

@@ -17,28 +17,34 @@ void operator=(const TypeName&&) = delete;
 #else
 #define DEBUG_PRINT(...)
 #endif
-#ifdef _WIN32
+
+// Check windows
+#if _WIN32 || _WIN64
 #define VEE_PLATFORM_WINDOWS 1
-#define VEE_PLATFORM_X32 1
-#ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x0501
-#endif // !_WIN32_WINNT
-#elif  _WIN64
-#define VEE_PLATFORM_WINDOWS_ 1
+#if _WIN64
+#define VEE_PLATFORM_X32 0
 #define VEE_PLATFORM_X64 1
-#ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x0501
-#endif // !_WIN32_WINNT
 #else
-#define VEE_PLATFORM_WINDOWS 0
+#define VEE_PLATFORM_X32 1
+#define VEE_PLATFORM_X64 0
 #endif
+#endif
+
+// Check GCC
+#if __GNUC__
+#define VEE_PLATFORM_WINDOWS 0
+#if __x86_64__ || __ppc64__
+#define VEE_PLATFORM_X32 0
+#define VEE_PLATFORM_X64 1
+#else
+#define VEE_PLATFORM_X32 1
+#define VEE_PLATFORM_X64 0
+#endif
+#endif
+
 #define PRINT_LINE for(int i = 0; i < 7; ++i) printf("----------");printf("\n");
 
-class static_class abstract
-{
-    DISALLOW_COPY_AND_ASSIGN(static_class);
-    DISALLOW_MOVE_AND_ASSIGN(static_class);
-};
 #if (_MSC_VER == 1900) // VS2015
 #define __noexcept noexcept
 #else

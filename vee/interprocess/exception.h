@@ -16,7 +16,7 @@ public:
     {
         return _desc;
     }
-    const int  gle;
+    int  gle;
 };
 
 class pipe_wait_timeout: public stream_open_failed
@@ -28,7 +28,7 @@ public:
     {
         return _desc;
     }
-    const int  gle;
+    int  gle;
 };
 
 class pipe_initialize_failed: public stream_open_failed
@@ -40,7 +40,7 @@ public:
     {
         return _desc;
     }
-    const int  gle;
+    int  gle;
 };
 
 class pipe_stream_reset: public stream_reset
@@ -52,7 +52,7 @@ public:
     {
         return _desc;
     }
-    const int  gle;
+    int  gle;
 };
 
 class pipe_read_failed: public stream_read_failed
@@ -64,7 +64,7 @@ public:
     {
         return _desc;
     }
-    const int  gle;
+    int  gle;
 };
 
 class pipe_buffer_too_small: public stream_read_failed
@@ -76,7 +76,7 @@ public:
     {
         return _desc;
     }
-    const int  gle;
+    int  gle;
 };
 
 class pipe_write_failed: public stream_write_failed
@@ -88,7 +88,7 @@ public:
     {
         return _desc;
     }
-    const int  gle;
+    int  gle;
 };
 
 class pipe_accept_failed: public stream_accept_failed
@@ -100,7 +100,7 @@ public:
     {
         return _desc;
     }
-    const int  gle;
+    int  gle;
 };
 
 } // !namespace exceptions
