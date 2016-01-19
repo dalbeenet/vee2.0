@@ -3,6 +3,7 @@
 
 #include <string>
 #include <algorithm>
+#include <vector>
 #include <vee/base.h>
 
 namespace vee {
@@ -23,22 +24,24 @@ private:
     const ::std::locale& loc_;
 };
 
-inline static ::std::string trim_left(const ::std::string& str)
+inline ::std::string trim_left(const ::std::string& str)
 {
     ::std::string::size_type n = str.find_first_not_of(" \t\v\n");
     return n == ::std::string::npos ? str : str.substr(n, str.length());
 }
 
-inline static ::std::string trim_right(const ::std::string& str)
+inline ::std::string trim_right(const ::std::string& str)
 {
     ::std::string::size_type n = str.find_last_not_of(" \t\v\n");
     return n == ::std::string::npos ? str : str.substr(0, n + 1);
 }
 
-inline static ::std::string trim(const ::std::string& str)
+inline ::std::string trim(const ::std::string& str)
 {
     return trim_left(trim_right(str));
 }
+
+::std::vector<::std::string> split(const ::std::string& string, const char* token);
 
 const int not_found = -1;
 
@@ -51,25 +54,7 @@ static int ci_find_substr(const T& str1, const T& str2, const ::std::locale& loc
     else return not_found; // not found
 }
 
-char* stristr(const char* s1, const char* s2)
-{
-    do
-    {
-        const char* h = s1;
-        const char* n = s2;
-        while (tolower((unsigned char)*h) == tolower((unsigned char)*n) && *n)
-        {
-            h++;
-            n++;
-        }
-        if (*n == 0)
-        {
-            return (char *)s1;
-        }
-    }
-    while (*s1++);
-    return nullptr;
-}
+char* stristr(const char* s1, const char* s2);
 
 } // !namespace strutils
 

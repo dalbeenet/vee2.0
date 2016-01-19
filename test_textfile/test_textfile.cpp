@@ -1,7 +1,7 @@
 #include <vee/code/textfile.h>
 #include <vee/filesystem/path.h>
-using namespace vee;
-using namespace std;
+#include <vee/enumeration.h>
+#include <iostream>
 namespace fs = ::vee::filesystem;
 
 #pragma warning(disable:4996)
@@ -12,5 +12,8 @@ int main()
     {
         printf("%s\n", s.c_str());
     }
+    
+    puts(to_string(vee::charset::ascii));
+
     return 0;
 }

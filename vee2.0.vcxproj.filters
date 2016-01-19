@@ -138,6 +138,9 @@
     <ClInclude Include="vee\filesystem\path.h">
       <Filter>vee\filesystem</Filter>
     </ClInclude>
+    <ClInclude Include="vee\enumeration.h">
+      <Filter>vee</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="concurrency\mutex.cpp">
@@ -181,6 +184,9 @@
     </ClCompile>
     <ClCompile Include="filesystem\path.cpp">
       <Filter>filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="strutils\strutils.cpp">
+      <Filter>vee</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

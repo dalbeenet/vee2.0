@@ -189,6 +189,7 @@
     <ClInclude Include="vee\concurrency\scheduler.h" />
     <ClInclude Include="vee\concurrency\syncronized_ringqueue.h" />
     <ClInclude Include="vee\delegate.h" />
+    <ClInclude Include="vee\enumeration.h" />
     <ClInclude Include="vee\error.h" />
     <ClInclude Include="vee\exception\exception_base.h" />
     <ClInclude Include="vee\filesystem\exception.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="network\rfc6455.cpp" />
     <ClCompile Include="network\tcp_server.cpp" />
     <ClCompile Include="network\tcp_stream.cpp" />
+    <ClCompile Include="strutils\strutils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
