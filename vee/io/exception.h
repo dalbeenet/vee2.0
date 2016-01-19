@@ -7,6 +7,24 @@ namespace vee {
 
 namespace exceptions {
 
+class invalid_path: public std::exception, public ::vee::exception
+{
+public:
+    const char* what() __noexcept
+    {
+        return "invalid path";
+    }
+};
+
+class file_open_failed: public std::exception, public ::vee::exception
+{
+public:
+    const char* what() __noexcept
+    {
+        return "file open failed";
+    }
+};
+
 class stream_open_failed: public std::exception, public ::vee::exception
 {
 public:

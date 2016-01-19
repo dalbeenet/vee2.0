@@ -19,32 +19,32 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A78FA93C-3A15-461D-BF81-F49D01DEFE35}</ProjectGuid>
+    <ProjectGuid>{789B6D94-0333-4F96-8D39-57F52345919A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>vee20</RootNamespace>
+    <RootNamespace>test_textfile</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -67,164 +67,103 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)\lib\x32\</OutDir>
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\bin\x32\</OutDir>
     <IntDir>$(SolutionDir)\obj\x32\Debug\$(ProjectName)\</IntDir>
-    <TargetName>$(ProjectName)-vc120-sgd-2_0</TargetName>
     <IncludePath>$(SolutionDir);$(BOOST_1_59_0);$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\lib\x32;$(BOOST_1_59_0)\stage32_lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>$(ProjectName)-vc120-sgd-2_0</TargetName>
     <IncludePath>$(SolutionDir);$(BOOST_1_59_0);$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\lib\x64;$(BOOST_1_59_0)\stage64_lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)\lib\x64\</OutDir>
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\bin\x64\</OutDir>
     <IntDir>$(SolutionDir)\obj\x64\Debug\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)\lib\x32\</OutDir>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\bin\x32\</OutDir>
     <IntDir>$(SolutionDir)\obj\x32\Release\$(ProjectName)\</IntDir>
-    <TargetName>$(ProjectName)-vc120-s-2_0</TargetName>
     <IncludePath>$(SolutionDir);$(BOOST_1_59_0);$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\lib\x32;$(BOOST_1_59_0)\stage32_lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>$(ProjectName)-vc120-s-2_0</TargetName>
     <IncludePath>$(SolutionDir);$(BOOST_1_59_0);$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\lib\x64;$(BOOST_1_59_0)\stage64_lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)\lib\x64\</OutDir>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\bin\x64\</OutDir>
     <IntDir>$(SolutionDir)\obj\x64\Release\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
-      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libboost_system-vc120-mt-sgd-1_59.lib;vee2.0-vc120-sgd-2_0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <Lib>
-      <AdditionalDependencies>libboost_system-vc120-mt-sgd-1_59.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
-      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libboost_system-vc120-mt-sgd-1_59.lib;vee2.0-vc120-sgd-2_0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <Lib>
-      <AdditionalDependencies>libboost_system-vc120-mt-sgd-1_59.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>libboost_system-vc120-mt-s-1_59.lib;vee2.0-vc120-s-2_0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <Lib>
-      <AdditionalDependencies>libboost_system-vc120-mt-s-1_59.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>libboost_system-vc120-mt-s-1_59.lib;vee2.0-vc120-s-2_0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <Lib>
-      <AdditionalDependencies>libboost_system-vc120-mt-s-1_59.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="vee\base.h" />
-    <ClInclude Include="vee\code\code.h" />
-    <ClInclude Include="vee\code\exception.h" />
-    <ClInclude Include="vee\code\textfile.h" />
-    <ClInclude Include="vee\concurrency\actor.h" />
-    <ClInclude Include="vee\concurrency\mutex.h" />
-    <ClInclude Include="vee\concurrency\scheduler.h" />
-    <ClInclude Include="vee\concurrency\syncronized_ringqueue.h" />
-    <ClInclude Include="vee\delegate.h" />
-    <ClInclude Include="vee\error.h" />
-    <ClInclude Include="vee\exception\exception_base.h" />
-    <ClInclude Include="vee\filesystem\exception.h" />
-    <ClInclude Include="vee\filesystem\path.h" />
-    <ClInclude Include="vee\interprocess\exception.h" />
-    <ClInclude Include="vee\interprocess\pipe.h" />
-    <ClInclude Include="vee\interprocess\shared_memory.h" />
-    <ClInclude Include="vee\io\boost_io_service.h" />
-    <ClInclude Include="vee\io\exception.h" />
-    <ClInclude Include="vee\io\io_base.h" />
-    <ClInclude Include="vee\io\stream.h" />
-    <ClInclude Include="vee\network\exception.h" />
-    <ClInclude Include="vee\network\net.h" />
-    <ClInclude Include="vee\network\tcp_stream.h" />
-    <ClInclude Include="vee\network\websocket_stream.h" />
-    <ClInclude Include="vee\signal.h" />
-    <ClInclude Include="vee\strutils.h" />
-    <ClInclude Include="vee\test\test_object.h" />
-    <ClInclude Include="vee\tuple_unpacker.h" />
-    <ClInclude Include="vee\type_parser.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="code\base64.cpp" />
-    <ClCompile Include="code\sha1.cpp" />
-    <ClCompile Include="code\textfile.cpp" />
-    <ClCompile Include="concurrency\mutex.cpp" />
-    <ClCompile Include="filesystem\path.cpp" />
-    <ClCompile Include="interprocess\exception_impl.cpp" />
-    <ClCompile Include="interprocess\shared_memory.cpp" />
-    <ClCompile Include="interprocess\win32_named_pipe.cpp" />
-    <ClCompile Include="io\async_stream.cpp" />
-    <ClCompile Include="io\boost_io_service.cpp" />
-    <ClCompile Include="network\net.cpp" />
-    <ClCompile Include="network\rfc6455.cpp" />
-    <ClCompile Include="network\tcp_server.cpp" />
-    <ClCompile Include="network\tcp_stream.cpp" />
+    <ClCompile Include="test_textfile.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

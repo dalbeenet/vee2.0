@@ -43,6 +43,12 @@
     <Filter Include="vee\test">
       <UniqueIdentifier>{23a40e5d-d70e-4d25-b2b1-550a9f052f2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vee\filesystem">
+      <UniqueIdentifier>{ccfd02f9-61f6-4561-a401-f62c07dcbc67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="filesystem">
+      <UniqueIdentifier>{79ff8ca5-1ea2-491b-932e-6b5e6aa6880c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vee\concurrency\mutex.h">
@@ -120,6 +126,18 @@
     <ClInclude Include="vee\interprocess\exception.h">
       <Filter>vee\interprocess</Filter>
     </ClInclude>
+    <ClInclude Include="vee\code\textfile.h">
+      <Filter>vee\code</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\code\exception.h">
+      <Filter>vee\code</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\filesystem\exception.h">
+      <Filter>vee\filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\filesystem\path.h">
+      <Filter>vee\filesystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="concurrency\mutex.cpp">
@@ -157,6 +175,12 @@
     </ClCompile>
     <ClCompile Include="interprocess\exception_impl.cpp">
       <Filter>interprocess</Filter>
+    </ClCompile>
+    <ClCompile Include="code\textfile.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="filesystem\path.cpp">
+      <Filter>filesystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

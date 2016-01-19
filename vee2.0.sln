@@ -35,6 +35,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_tcp_client", "test_tcp
 		{A78FA93C-3A15-461D-BF81-F49D01DEFE35} = {A78FA93C-3A15-461D-BF81-F49D01DEFE35}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_textfile", "test_textfile\test_textfile.vcxproj", "{789B6D94-0333-4F96-8D39-57F52345919A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A78FA93C-3A15-461D-BF81-F49D01DEFE35} = {A78FA93C-3A15-461D-BF81-F49D01DEFE35}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -100,6 +105,14 @@ Global
 		{691D7EEB-0687-492B-B563-627D8860FBD0}.Release|Win32.Build.0 = Release|Win32
 		{691D7EEB-0687-492B-B563-627D8860FBD0}.Release|x64.ActiveCfg = Release|x64
 		{691D7EEB-0687-492B-B563-627D8860FBD0}.Release|x64.Build.0 = Release|x64
+		{789B6D94-0333-4F96-8D39-57F52345919A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{789B6D94-0333-4F96-8D39-57F52345919A}.Debug|Win32.Build.0 = Debug|Win32
+		{789B6D94-0333-4F96-8D39-57F52345919A}.Debug|x64.ActiveCfg = Debug|x64
+		{789B6D94-0333-4F96-8D39-57F52345919A}.Debug|x64.Build.0 = Debug|x64
+		{789B6D94-0333-4F96-8D39-57F52345919A}.Release|Win32.ActiveCfg = Release|Win32
+		{789B6D94-0333-4F96-8D39-57F52345919A}.Release|Win32.Build.0 = Release|Win32
+		{789B6D94-0333-4F96-8D39-57F52345919A}.Release|x64.ActiveCfg = Release|x64
+		{789B6D94-0333-4F96-8D39-57F52345919A}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
