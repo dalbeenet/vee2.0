@@ -30,7 +30,7 @@ std::pair<charset, uint32_t> detect_charset(const char* filepath) throw(...)
         return make_pair(charset::ascii, 0);
 
     // Opening a file
-    array<char, 5> bom;
+    array<unsigned char, 5> bom;
     try
     {
         ifstream file(filepath, ios::in | ios::binary);
@@ -39,7 +39,7 @@ std::pair<charset, uint32_t> detect_charset(const char* filepath) throw(...)
         {
             //file.seekg(ios::beg);
             bom.fill(0);
-            file.read(bom.data(), 4);
+            file.read((char*)bom.data(), 4);
             if (bom[0] == 0x00 &&
                 bom[1] == 0x00 &&
                 bom[2] == 0xFE &&
@@ -73,7 +73,7 @@ std::pair<charset, uint32_t> detect_charset(const char* filepath) throw(...)
                 case 0x38:
                     if (size > 5)
                     {
-                        file.read(bom.data() + 4, 1);
+                        file.read((char*)bom.data() + 4, 1);
                         if (bom[4] == 0x2D)
                             return make_pair(charset::utf7, 5);
                     }
@@ -86,7 +86,7 @@ std::pair<charset, uint32_t> detect_charset(const char* filepath) throw(...)
         {
             file.seekg(ios::beg);
             bom.fill(0);
-            file.read(bom.data(), 3);
+            file.read((char*)bom.data(), 3);
             if (bom[0] == 0xEF &&
                 bom[1] == 0xBB &&
                 bom[2] == 0xBF)
@@ -109,7 +109,7 @@ std::pair<charset, uint32_t> detect_charset(const char* filepath) throw(...)
         {
             file.seekg(ios::beg);
             bom.fill(0);
-            file.read(bom.data(), 2);
+            file.read((char*)bom.data(), 2);
             if (bom[0] == 0xFE &&
                 bom[1] == 0xFF)
                 return make_pair(charset::utf16_big_endian, 2);

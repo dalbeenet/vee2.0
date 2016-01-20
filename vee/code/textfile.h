@@ -9,7 +9,7 @@
 
 namespace vee {
 
-Enumeration(charset, uint32_t, 0,
+Enumeration(charset, 0,
             null,
             ascii,
             utf8,

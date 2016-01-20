@@ -10,5 +10,8 @@
     <ClCompile Include="test_textfile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="code2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
