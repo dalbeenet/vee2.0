@@ -226,7 +226,7 @@
     <ClCompile Include="network\rfc6455.cpp" />
     <ClCompile Include="network\tcp_server.cpp" />
     <ClCompile Include="network\tcp_stream.cpp" />
-    <ClCompile Include="strutils\strutils.cpp" />
+    <ClCompile Include="vee\strutils\strutils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

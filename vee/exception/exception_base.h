@@ -6,9 +6,10 @@
 
 namespace vee {
 
-class exception
+class exception abstract
 {
 public:
+    virtual const char* to_string() = 0;
 };
 
 } // !namespace vee

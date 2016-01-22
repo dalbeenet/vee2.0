@@ -49,6 +49,9 @@
     <Filter Include="filesystem">
       <UniqueIdentifier>{79ff8ca5-1ea2-491b-932e-6b5e6aa6880c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vee\strutils">
+      <UniqueIdentifier>{893ca04e-e7af-4467-92dd-e75b4674bdef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vee\concurrency\mutex.h">
@@ -185,8 +188,8 @@
     <ClCompile Include="filesystem\path.cpp">
       <Filter>filesystem</Filter>
     </ClCompile>
-    <ClCompile Include="strutils\strutils.cpp">
-      <Filter>vee</Filter>
+    <ClCompile Include="vee\strutils\strutils.cpp">
+      <Filter>vee\strutils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

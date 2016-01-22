@@ -10,6 +10,10 @@ namespace exceptions {
 class invalid_path: public std::exception, public ::vee::exception
 {
 public:
+    virtual const char* to_string()
+    {
+        return this->what();
+    }
     const char* what() __noexcept
     {
         return "invalid path";
@@ -19,6 +23,10 @@ public:
 class file_open_failed: public std::exception, public ::vee::exception
 {
 public:
+    virtual const char* to_string()
+    {
+        return this->what();
+    }
     const char* what() __noexcept
     {
         return "file open failed";
@@ -28,6 +36,10 @@ public:
 class stream_open_failed: public std::exception, public ::vee::exception
 {
 public:
+    virtual const char* to_string()
+    {
+        return this->what();
+    }
     const char* what() __noexcept
     {
         return "stream creation failed";
@@ -37,6 +49,10 @@ public:
 class stream_already_opened: public stream_open_failed
 {
 public:
+    virtual const char* to_string()
+    {
+        return this->what();
+    }
     const char* what() __noexcept
     {
         return "stream is already opened";
@@ -46,6 +62,10 @@ public:
 class stream_corrupted: public std::exception, public ::vee::exception
 {
 public:
+    virtual const char* to_string()
+    {
+        return this->what();
+    }
     const char* what() __noexcept
     {
         return "invalid stream";
@@ -55,6 +75,10 @@ public:
 class stream_reset: public ::std::exception, public ::vee::exception
 {
 public:
+    virtual const char* to_string()
+    {
+        return this->what();
+    }
     const char* what() __noexcept
     {
         return "stream reset";
@@ -64,6 +88,10 @@ public:
 class stream_io_failed: public ::std::exception, public ::vee::exception
 {
 public:
+    virtual const char* to_string()
+    {
+        return this->what();
+    }
     const char* what() __noexcept
     {
         return "stream io failed";
@@ -73,6 +101,10 @@ public:
 class stream_write_failed: public stream_io_failed
 {
 public:
+    virtual const char* to_string()
+    {
+        return this->what();
+    }
     const char* what() __noexcept
     {
         return "stream output failed";
@@ -82,6 +114,10 @@ public:
 class stream_read_failed: public stream_io_failed
 {
 public:
+    virtual const char* to_string()
+    {
+        return this->what();
+    }
     const char* what() __noexcept
     {
         return "stream input failed";
@@ -91,6 +127,10 @@ public:
 class stream_accept_failed: public ::std::exception, public ::vee::exception
 {
 public:
+    virtual const char* to_string()
+    {
+        return this->what();
+    }
     const char* what() __noexcept
     {
         return "stream accept failed";

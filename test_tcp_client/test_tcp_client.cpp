@@ -22,15 +22,15 @@ int main()
     }
     catch (exceptions::stream_open_failed& exception)
     {
-        puts(exception.what());
+        puts(exception.to_string());
     }
     catch (exceptions::stream_io_failed& exception)
     {
-        puts(exception.what());
+        puts(exception.to_string());
     }
-    catch (std::exception& exception)
+    catch (vee::exception& exception)
     {
-        puts(exception.what());
+        puts(exception.to_string());
     }
     return 0;
 }
