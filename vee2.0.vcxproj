@@ -110,7 +110,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>libboost_system-vc120-mt-sgd-1_59.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libboost_system-vc120-mt-sgd-1_59.lib;libboost_locale-vc120-mt-sgd-1_59.lib;libboost_date_time-vc120-mt-sgd-1_59.lib;libboost_filesystem-vc120-mt-sgd-1_59.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -128,8 +128,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib />
     <Lib>
-      <AdditionalDependencies>libboost_system-vc120-mt-sgd-1_59.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libboost_system-vc120-mt-sgd-1_59.lib;libboost_locale-vc120-mt-sgd-1_59.lib;libboost_date_time-vc120-mt-sgd-1_59.lib;libboost_filesystem-vc120-mt-sgd-1_59.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -181,7 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vee\base.h" />
-    <ClInclude Include="vee\code\code.h" />
+    <ClInclude Include="vee\code\codecvt.h" />
     <ClInclude Include="vee\code\exception.h" />
     <ClInclude Include="vee\code\textfile.h" />
     <ClInclude Include="vee\concurrency\actor.h" />
@@ -213,6 +214,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\base64.cpp" />
+    <ClCompile Include="code\conv.cpp" />
     <ClCompile Include="code\sha1.cpp" />
     <ClCompile Include="code\textfile.cpp" />
     <ClCompile Include="concurrency\mutex.cpp" />

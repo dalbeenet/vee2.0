@@ -1,11 +1,13 @@
-#include <vee/code/code.h>
+#include <vee/code/codecvt.h>
 #include <boost/archive/iterators/insert_linebreaks.hpp>
 #include <boost/archive/iterators/binary_from_base64.hpp>
 #include <boost/archive/iterators/base64_from_binary.hpp>
 #include <boost/archive/iterators/transform_width.hpp>
 #include <boost/algorithm/string.hpp>
 
-using namespace vee;
+namespace vee {
+
+namespace conv {
 
 ::std::string base64::decode(const ::std::string &dst)
 {
@@ -62,4 +64,8 @@ using namespace vee;
     result.insert(result.end(), number_of_padd_chars, '=');
 
     return result;
+}
+
+}
+
 }

@@ -47,8 +47,22 @@ void operator=(const TypeName&&) = delete;
 
 #if (_MSC_VER == 1900) // VS2015
 #define __noexcept noexcept
+#define __constexpr constexpr
 #else
 #define __noexcept throw()
+#define __constexpr
 #endif
+
+template <class LHS, class RHS>
+__constexpr inline auto sum(LHS&& lhs, RHS&& rhs) -> decltype(lhs + rhs)
+{
+    return lhs + rhs;
+}
+
+template <class Current, class ...Remainder>
+__constexpr inline auto sum(Current current, Remainder... rest) -> decltype(current + sum(rest ...))
+{
+    return (current + sum(rest ...));
+}
 
 #endif // !_VEE_BASE_H_

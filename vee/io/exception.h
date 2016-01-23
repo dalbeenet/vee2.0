@@ -20,6 +20,19 @@ public:
     }
 };
 
+class file_does_not_exist: public std::exception, public ::vee::exception
+{
+public:
+    virtual const char* to_string()
+    {
+        return this->what();
+    }
+    const char* what() __noexcept
+    {
+        return "file does not exist";
+    }
+};
+
 class file_open_failed: public std::exception, public ::vee::exception
 {
 public:

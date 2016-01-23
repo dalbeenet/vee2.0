@@ -1,7 +1,10 @@
 #include <iostream>
-#include <vee/code/code.h>
+#include <vee/code/codecvt.h>
 #include <boost/uuid/sha1.hpp>
-using namespace vee;
+
+namespace vee {
+
+namespace conv {
 
 ::std::vector<unsigned char> sha1::hashing(const ::std::string& dst)
 {
@@ -29,4 +32,8 @@ void sha1::print(::std::vector<unsigned char>& dst)
             << (dst[i] & 0x0000000F);
     }
     ::std::cout << ::std::endl; // Das wars  
+}
+
+}
+
 }

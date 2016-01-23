@@ -1,6 +1,6 @@
 #include <vee/network/net.h>
 #include <vee/strutils.h>
-#include <vee/code/code.h>
+#include <vee/code/codecvt.h>
 #include <vee/network/tcp_stream.h>
 #include <boost/tokenizer.hpp>
 #include <boost/endian/conversion.hpp>
@@ -621,10 +621,10 @@ bool xwebsocket_server::_handshake(net_stream& raw_socket)
         ::std::string magic_string(header.sec_websocket_key);
         magic_string.append(RFC4122_GUID);
         // Hashing via SHA-1
-        auto hash_code = sha1::hashing(magic_string);
-        sha1::print(hash_code);
+        auto hash_code = conv::sha1::hashing(magic_string);
+        conv::sha1::print(hash_code);
         // Encoding via Base64
-        ::std::string hash_code_base64 = base64::encode(hash_code);
+        ::std::string hash_code_base64 = conv::base64::encode(hash_code);
         printf("To base64: %s\n", hash_code_base64.data());
         // Make data for response
         handshake::server_response response;

@@ -84,9 +84,6 @@
     <ClInclude Include="vee\strutils.h">
       <Filter>vee</Filter>
     </ClInclude>
-    <ClInclude Include="vee\code\code.h">
-      <Filter>vee\code</Filter>
-    </ClInclude>
     <ClInclude Include="vee\error.h">
       <Filter>vee</Filter>
     </ClInclude>
@@ -144,6 +141,7 @@
     <ClInclude Include="vee\enumeration.h">
       <Filter>vee</Filter>
     </ClInclude>
+    <ClInclude Include="vee\code\codecvt.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="concurrency\mutex.cpp">
@@ -190,6 +188,9 @@
     </ClCompile>
     <ClCompile Include="vee\strutils\strutils.cpp">
       <Filter>vee\strutils</Filter>
+    </ClCompile>
+    <ClCompile Include="code\conv.cpp">
+      <Filter>code</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

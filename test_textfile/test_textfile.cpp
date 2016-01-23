@@ -18,15 +18,13 @@ int main()
             printf("%s (%s)\n",
                    s.c_str(),
                    ::vee::detect_charset(relative_path.c_str()).first.to_string());
+            /*::vee::textfile<::vee::conv::ascii_converter> txt;
+            txt.read_from_file(relative_path.c_str());*/
         }
     }
-    catch (::vee::exceptions::file_open_failed& e)
+    catch (::vee::exception& e)
     {
-        puts(e.what());
-    }
-    catch (...)
-    {
-        puts("unhandled exception occured!");
+        puts(e.to_string());
     }
 
     numbers2 enum_instance = numbers2::second;
