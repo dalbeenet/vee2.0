@@ -26,13 +26,15 @@ _acceptor(static_cast<::boost::asio::ip::tcp::acceptor&&>(other._acceptor))
 
 tcp_server::~tcp_server()
 {
-
+    tcp_server::close();
 }
 
 void tcp_server::close()
 {
-    _acceptor.close();
-    _socket.close();
+    if (_acceptor.is_open())
+        _acceptor.close();
+    if (_socket.is_open())
+        _socket.close();
 }
 
 net_stream::shared_ptr tcp_server::accept()

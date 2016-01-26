@@ -541,12 +541,12 @@ _tcp_server(static_cast<xwebsocket_server::tcp_server&&>(other._tcp_server))
 
 xwebsocket_server::~xwebsocket_server()
 {
-
+    close();
 }
 
 void xwebsocket_server::close()
 {
-
+    _tcp_server.close();
 }
 
 net_stream::shared_ptr xwebsocket_server::accept() throw(...)
