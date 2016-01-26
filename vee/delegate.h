@@ -12,47 +12,6 @@
 
 namespace vee {
 
-//template <typename Signature>
-//struct recursive;
-//
-//template <typename R, typename... Args>
-//struct recursive<R(Args...)>
-//{
-//    std::function<R(recursive const&, Args... args)> recursive_function;
-//
-//    recursive() = default;
-//
-//    recursive(decltype(recursive_function) const& func): recursive_function(func)
-//    {
-//    }
-//
-//    template <typename... T>
-//    R operator()(T&&... args) const
-//    {
-//        return recursive_function(*this, std::forward<Args>(args)...);
-//    }
-//};
-//
-//recursive<void(int)> get_recursive_function(bool no_optimize)
-//{
-//    using result_type = recursive<void(int)>;
-//
-//    if (!no_optimize)
-//    {
-//        return result_type();
-//    }
-//
-//    result_type result([](result_type const& me, int a)
-//    {
-//        if (a > 0)
-//        {
-//            me(a - 1);
-//        }
-//    });
-//
-//    return result;
-//}
-
 template <class T>
 void* pvoid_cast(T pointer)
 {

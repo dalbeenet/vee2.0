@@ -20,6 +20,7 @@ inline bool compare_and_swap_strong(::std::atomic<T>& dst, int exp, int value)
 template <class FTy>
 class actor;
 
+#pragma warning(disable:4127)
 template <class RTy, class ...Args>
 class actor < RTy(Args ...) >
 {
@@ -52,7 +53,7 @@ public:
     ~actor()
     {
         kill();
-        printf("actor is destroyed!\n");
+        //printf("actor is destroyed!\n");
     }
     template <class Delegate, typename ...FwdArgs>
     inline int request(Delegate&& _delegate, FwdArgs&& ... args)
@@ -203,6 +204,7 @@ private:
     static const int PROC = 4;
     static const int DEAD = 5;
 };
+#pragma warning(default:4127)
 
 template <class FTy>
 class actor_group

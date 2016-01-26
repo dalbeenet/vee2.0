@@ -28,7 +28,7 @@ int main()
     }
 
     numbers2 enum_instance = numbers2::second;
-    puts("----------------------------------");
+    puts("----------------------------------"); 
     puts("test case: Switch statement");
     switch (enum_instance.enum_form())
     {
