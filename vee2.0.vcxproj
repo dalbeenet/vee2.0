@@ -209,6 +209,7 @@
     <ClInclude Include="vee\signal.h" />
     <ClInclude Include="vee\strutils.h" />
     <ClInclude Include="vee\test\test_object.h" />
+    <ClInclude Include="vee\timer.h" />
     <ClInclude Include="vee\tuple_unpacker.h" />
     <ClInclude Include="vee\type_parser.h" />
   </ItemGroup>
@@ -228,6 +229,7 @@
     <ClCompile Include="network\rfc6455.cpp" />
     <ClCompile Include="network\tcp_server.cpp" />
     <ClCompile Include="network\tcp_stream.cpp" />
+    <ClCompile Include="timer\timer.cpp" />
     <ClCompile Include="vee\strutils\strutils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

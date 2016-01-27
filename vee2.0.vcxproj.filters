@@ -52,6 +52,9 @@
     <Filter Include="vee\strutils">
       <UniqueIdentifier>{893ca04e-e7af-4467-92dd-e75b4674bdef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="timer">
+      <UniqueIdentifier>{b6a4153e-38e7-423c-bba6-fb4e06c67c16}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vee\concurrency\mutex.h">
@@ -142,6 +145,9 @@
       <Filter>vee</Filter>
     </ClInclude>
     <ClInclude Include="vee\code\codecvt.h" />
+    <ClInclude Include="vee\timer.h">
+      <Filter>vee</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="concurrency\mutex.cpp">
@@ -191,6 +197,9 @@
     </ClCompile>
     <ClCompile Include="code\conv.cpp">
       <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="timer\timer.cpp">
+      <Filter>timer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
