@@ -53,7 +53,8 @@ public:
     ~actor()
     {
         kill();
-        //printf("actor is destroyed!\n");
+        waiting_for_exit();
+        //puts("actor is destroyed!");
     }
     template <class Delegate, typename ...FwdArgs>
     inline int request(Delegate&& _delegate, FwdArgs&& ... args)
@@ -87,17 +88,19 @@ public:
     }
     bool kill()
     {
-        _workable = false;
+        if (_workable == false)
+            return true;
         while (!xactor::compare_and_swap_strong(_state, IDLE, DEAD))
         {
             std::this_thread::sleep_for(std::chrono::microseconds::duration(1));
         }
-        _thread.detach();
+        //_thread.detach();
         while (!_sigch.try_send(sigid::go_exit))
         {
             //std::this_thread::sleep_for(std::chrono::microseconds::duration(1));
         }
         while (_sigch.recv() != sigid::exit_ok);
+        _workable = false;
         return true;
     }
     bool respawn()
@@ -204,8 +207,8 @@ private:
     static const int PROC = 4;
     static const int DEAD = 5;
 };
-#pragma warning(default:4127)
 
+#pragma warning(default:4127)
 template <class FTy>
 class actor_group
 {
@@ -217,6 +220,10 @@ public:
         {
             add_actor(mailbox_size);
         }
+    }
+    ~actor_group()
+    {
+
     }
     std::size_t add_actor(std::size_t mailbox_size)
     {
@@ -231,6 +238,11 @@ public:
         int ret = --_size;
         _actor_pointers.pop_back();
         return ret;
+    }
+    void clear_actors()
+    {
+        std::lock_guard<std::mutex> guard(_container_lock);
+        _actor_pointers.clear();
     }
     inline int capacity()
     {

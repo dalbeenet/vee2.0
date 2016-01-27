@@ -24,7 +24,7 @@ public:
     virtual void connect(const char* pipe_name,
                          const create_option creation_opt,
                          const data_transfer_mode read_mode,
-                         const size_t time_out_millisec) throw(...) override;
+                         const unsigned long time_out_millisec) throw(...) override;
     virtual void disconnect() __noexcept override;
     virtual size_t write_some(const unsigned char* data, const size_t size) throw(...) override;
     virtual void async_write_some(const unsigned char* data, const size_t len, async_write_callback e) throw(...) override;
@@ -122,7 +122,7 @@ win32_named_pipe& win32_named_pipe::operator=(win32_named_pipe&& other) __noexce
     return *this;
 }
 
-void win32_named_pipe::connect(const char* pipe_name, const create_option creation_opt, const data_transfer_mode read_mode, const size_t time_out_millisec) throw(...)
+void win32_named_pipe::connect(const char* pipe_name, const create_option creation_opt, const data_transfer_mode read_mode, const unsigned long time_out_millisec) throw(...)
 {
     if (_stream_handler.is_open() == true)
         throw exceptions::stream_already_opened();

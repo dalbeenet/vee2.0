@@ -15,6 +15,14 @@ public:
     {
 
     }
+    ~scheduler()
+    {
+
+    }
+    void force_clear_actors()
+    {
+        actor_group.clear_actors();
+    }
     template <class Delegate, typename ...FwdArgs>
     inline bool request(Delegate&& _delegate, FwdArgs&& ... args)
     {

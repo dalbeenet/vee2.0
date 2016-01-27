@@ -11,9 +11,9 @@ namespace interprocess {
 
 struct pipe_time_out_constant
 {
-    static const int wait_default = 0x00000000;
-    static const int wait_forever = 0xffffffff;
-    static const int wait_nowait = 0x00000001;
+    static const unsigned long wait_default = 0x00000000;
+    static const unsigned long wait_forever = 0xffffffff;
+    static const unsigned long wait_nowait = 0x00000001;
 };
 
 class named_pipe abstract: public io::stream
@@ -35,7 +35,7 @@ public:
     using unique_ptr = ::std::unique_ptr<named_pipe>;
     using shared_ptr = ::std::shared_ptr<named_pipe>;
     virtual ~named_pipe() = default;
-    virtual void connect(const char* pipe_name, const create_option option, const data_transfer_mode read_mode, const size_t time_out_millisec) throw(...) = 0;
+    virtual void connect(const char* pipe_name, const create_option option, const data_transfer_mode read_mode, const unsigned long time_out_millisec) throw(...) = 0;
     virtual void disconnect() throw(...) = 0;
 };
 
