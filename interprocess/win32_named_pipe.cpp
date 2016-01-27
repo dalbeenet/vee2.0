@@ -51,7 +51,8 @@ public:
     win32_named_pipe accept(const char* pipe_name,
                             const named_pipe::data_transfer_mode mode,
                             const size_t in_buffer_size,
-                            const size_t out_buffer_size) throw(...);
+                            const size_t out_buffer_size,
+                            const unsigned long timeout = 0) throw(...);
 };
 
 class win32_named_pipe_server: public named_pipe_server
@@ -68,7 +69,8 @@ public:
     virtual generic_session_ptr     accept(const char* pipe_name,
                                            const named_pipe::data_transfer_mode mode,
                                            const size_t in_buffer_size,
-                                           const size_t out_buffer_size) throw(...) override;
+                                           const size_t out_buffer_size,
+                                           const unsigned long timeout = 0) throw(...) override;
     virtual void close() __noexcept override;
 protected:
     win32_named_pipe_acceptor _acceptor;
@@ -387,7 +389,8 @@ void win32_named_pipe::async_write_some(const unsigned char* data, const size_t 
 win32_named_pipe win32_named_pipe_acceptor::accept(const char* pipe_name,
                                                    const named_pipe::data_transfer_mode io_mode,
                                                    const size_t in_buffer_size,
-                                                   const size_t out_buffer_size) throw(...)
+                                                   const size_t out_buffer_size,
+                                                   const unsigned long timeout) throw(...)
 {
     DWORD win32_pipe_type_arg = NULL;
     switch (io_mode)
@@ -408,7 +411,7 @@ win32_named_pipe win32_named_pipe_acceptor::accept(const char* pipe_name,
         PIPE_UNLIMITED_INSTANCES,// max. instances
         static_cast<DWORD>(in_buffer_size),
         static_cast<DWORD>(out_buffer_size),
-        NMPWAIT_USE_DEFAULT_WAIT, // client time-out
+        timeout, // client time-out
         NULL // default security attribute
         );
 
@@ -418,10 +421,50 @@ win32_named_pipe win32_named_pipe_acceptor::accept(const char* pipe_name,
     }
 
     // Wait for the client to connect
-    BOOL result = ConnectNamedPipe(pipe_handle, NULL) ? TRUE : (GetLastError() == ERROR_PIPE_CONNECTED);
-    if (!result)
+    if (timeout == 0)
     {
-        throw exceptions::pipe_accept_failed(GetLastError());
+        BOOL result = ConnectNamedPipe(pipe_handle, NULL) ? TRUE : (GetLastError() == ERROR_PIPE_CONNECTED);
+        if (!result)
+        {
+            throw exceptions::pipe_accept_failed(GetLastError());
+        }
+    }
+    else
+    {
+        OVERLAPPED ol = { 0, 0, 0, 0, NULL };
+        ol.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+
+        BOOL result = ConnectNamedPipe(pipe_handle, &ol);
+
+        if (result == 0)
+        {
+            switch (GetLastError())
+            {
+            case ERROR_PIPE_CONNECTED:
+                /* client is connected */
+                result = TRUE;
+                break;
+
+            case ERROR_IO_PENDING:
+                /* if pending i wait PIPE_TIMEOUT_CONNECT ms */
+                if (WaitForSingleObject(ol.hEvent, timeout) == WAIT_OBJECT_0)
+                {
+                    DWORD dwIgnore;
+                    result = GetOverlappedResult(pipe_handle, &ol, &dwIgnore, FALSE);
+                }
+                else
+                {
+                    CancelIo(pipe_handle);
+                }
+                break;
+            }
+        }
+        CloseHandle(ol.hEvent);
+
+        if (!result)
+        {
+            throw exceptions::pipe_accept_timeout();
+        }
     }
 
     win32_named_pipe pipe(pipe_handle, pipe_name, true);
@@ -450,9 +493,9 @@ win32_named_pipe win32_named_pipe_acceptor::accept(const char* pipe_name,
 //    return *this;
 //}
 
-win32_named_pipe_server::generic_session_ptr win32_named_pipe_server::accept(const char* pipe_name, const named_pipe::data_transfer_mode mode, const size_t in_buffer_size, const size_t out_buffer_size) throw(...)
+win32_named_pipe_server::generic_session_ptr win32_named_pipe_server::accept(const char* pipe_name, const named_pipe::data_transfer_mode mode, const size_t in_buffer_size, const size_t out_buffer_size, const unsigned long timeout) throw(...)
 {
-    generic_session_ptr generic_session = std::make_shared<session_t>(_acceptor.accept(pipe_name, mode, in_buffer_size, out_buffer_size));
+    generic_session_ptr generic_session = std::make_shared<session_t>(_acceptor.accept(pipe_name, mode, in_buffer_size, out_buffer_size, timeout));
     return generic_session;
 }
 

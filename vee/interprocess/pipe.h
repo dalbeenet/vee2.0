@@ -48,7 +48,8 @@ public:
     virtual ::std::shared_ptr<named_pipe> accept(const char* pipe_name,
                                                  const named_pipe::data_transfer_mode mode,
                                                  const size_t in_buffer_size,
-                                                 const size_t out_buffer_size) throw(...) = 0;
+                                                 const size_t out_buffer_size,
+                                                 const unsigned long timeout = 0) throw(...) = 0;
     virtual void close() throw(...) = 0;
 };
 

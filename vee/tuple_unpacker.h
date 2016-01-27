@@ -7,7 +7,7 @@
 #include <vee/type_parser.h>
 
 namespace vee {
-
+#pragma warning(disable:4100)
 namespace xtuple_unpacker {
 template<int ...>
 struct sequence
@@ -56,6 +56,7 @@ void call_by_tuple_noreturn(CallableObj&& func, Tuple&& tuple)
                                         std::forward<Tuple>(tuple),
                                         typename xtuple_unpacker::sequence_generator< std::tuple_size< std::remove_reference<Tuple>::type >::value/*sizeof...(Args)*/>::type());
 }
+#pragma warning(default:4100)
 
 } // !namespace vee
 

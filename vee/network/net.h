@@ -23,7 +23,7 @@ using port_t = unsigned short;
 #define VEE_NET_ASYNC_CONNECT_CALLBACK_SIGNATURE void(::vee::net::op_result&/*operation result*/)
 #define VEE_NET_ASYNC_ACCEPT_CALLBACK_SIGNATURE  void(::vee::net::op_result&/*operation result*/, ::vee::net::net_stream::shared_ptr/*stream*/)
 
-class net_stream abstract: public io::sync_stream, public io::async_stream
+class net_stream abstract: public io::stream
 {
 public:
     using async_connect_delegate = delegate<VEE_NET_ASYNC_CONNECT_CALLBACK_SIGNATURE>;

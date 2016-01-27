@@ -135,6 +135,19 @@ public:
     int  gle;
 };
 
+class pipe_accept_timeout: public stream_accept_failed
+{
+public:
+    virtual const char* to_string()
+    {
+        return this->what();
+    }
+    inline const char* what()
+    {
+        return "pipe accept timeout";
+    }
+};
+
 } // !namespace exceptions
 
 } // !namespace vee

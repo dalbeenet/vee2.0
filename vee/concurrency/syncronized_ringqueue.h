@@ -172,7 +172,7 @@ protected:
     bool _overwrite_mode;
     int _rear;
     int _front;
-    int _size;
+    size_t _size;
 };
 
 template <class DataType>

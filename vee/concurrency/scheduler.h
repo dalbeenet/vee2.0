@@ -5,6 +5,7 @@
 
 namespace vee {
 
+#pragma warning(disable:4127)
 template <class FTy>
 class scheduler
 {
@@ -58,6 +59,7 @@ private:
 public:
     actor_group<FTy> actor_group;
 };
+#pragma warning(default:4127)
 
 } // !namespace vee
 
