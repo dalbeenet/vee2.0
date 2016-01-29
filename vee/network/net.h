@@ -154,7 +154,7 @@ struct header
     void randomize_mask();
 };
 
-} // namespace dataframe
+} // !namespace dataframe
 
 class websocket_stream abstract: public net_stream
 {

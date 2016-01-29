@@ -7,7 +7,7 @@ namespace vee {
 
 namespace exceptions {
 
-class protocol_mismatch_exception: public std::exception, public vee::exception
+class protocol_mismatch: public ::std::exception, public vee::exception
 {
 public:
     virtual const char* to_string()
@@ -20,7 +20,40 @@ public:
     }
 };
 
-class rfc6455_handshake_failure: public std::exception, public vee::exception
+namespace rfc6455 {
+
+class request_uri_not_found: public protocol_mismatch
+{
+public:
+    virtual const char* to_string()
+    {
+        return this->what();
+    }
+    const char* what() __noexcept
+    {
+        return "Request-URI not found in the HTTP Upgrade request";
+    }
+};
+
+class header_field_not_found: public protocol_mismatch
+{
+public:
+    static const int description_capacity = 1024;
+    char _desc[description_capacity];
+    explicit header_field_not_found(const char* header_field_name, ...);
+    virtual const char* to_string()
+    {
+        return this->what();
+    }
+    inline const char* what()
+    {
+        return _desc;
+    }
+};
+
+} // !namespace rfc6455
+
+class rfc6455_handshake_failure: public ::std::exception, public vee::exception
 {
 public:
     virtual const char* to_string()
@@ -33,7 +66,7 @@ public:
     }
 };
 
-class rfc6455_heartbeat: public std::exception, public vee::exception
+class rfc6455_heartbeat: public ::std::exception, public vee::exception
 {
 public:
     virtual const char* to_string()
@@ -46,7 +79,7 @@ public:
     }
 };
 
-class rfc6455_connection_close: public std::exception, public vee::exception
+class rfc6455_connection_close: public ::std::exception, public vee::exception
 {
 public:
     virtual const char* to_string()

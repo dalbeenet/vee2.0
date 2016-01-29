@@ -144,9 +144,11 @@
     <ClInclude Include="vee\enumeration.h">
       <Filter>vee</Filter>
     </ClInclude>
-    <ClInclude Include="vee\code\codecvt.h" />
     <ClInclude Include="vee\timer.h">
       <Filter>vee</Filter>
+    </ClInclude>
+    <ClInclude Include="vee\code\codecvt.h">
+      <Filter>vee\code</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +202,12 @@
     </ClCompile>
     <ClCompile Include="timer\timer.cpp">
       <Filter>timer</Filter>
+    </ClCompile>
+    <ClCompile Include="network\rfc6455_upgrade.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="network\exception_impl.cpp">
+      <Filter>network</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

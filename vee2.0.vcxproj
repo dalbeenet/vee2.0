@@ -225,8 +225,10 @@
     <ClCompile Include="interprocess\win32_named_pipe.cpp" />
     <ClCompile Include="io\async_stream.cpp" />
     <ClCompile Include="io\boost_io_service.cpp" />
+    <ClCompile Include="network\exception_impl.cpp" />
     <ClCompile Include="network\net.cpp" />
     <ClCompile Include="network\rfc6455.cpp" />
+    <ClCompile Include="network\rfc6455_upgrade.cpp" />
     <ClCompile Include="network\tcp_server.cpp" />
     <ClCompile Include="network\tcp_stream.cpp" />
     <ClCompile Include="timer\timer.cpp" />
